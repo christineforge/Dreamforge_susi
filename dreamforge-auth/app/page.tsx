@@ -4,7 +4,7 @@ import { useEffect } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 
 /**
- * Root page - stores redirect_uri and redirects to auth page
+ * Root page - passes redirect_uri through URL to sign-in page
  * Client-side redirect for Vercel compatibility
  */
 export default function Home() {
@@ -12,13 +12,14 @@ export default function Home() {
   const searchParams = useSearchParams()
   
   useEffect(() => {
-    // Store redirect_uri in sessionStorage so it persists through sign-in
     const redirectUri = searchParams.get('redirect_uri')
-    if (redirectUri) {
-      sessionStorage.setItem('dreamforge_redirect_uri', redirectUri)
-    }
     
-    router.push('/auth/sign-in')
+    // Pass redirect_uri through URL params (more reliable than sessionStorage)
+    if (redirectUri) {
+      router.push(`/auth/sign-in?redirect_uri=${encodeURIComponent(redirectUri)}`)
+    } else {
+      router.push('/auth/sign-in')
+    }
   }, [router, searchParams])
   
   return null

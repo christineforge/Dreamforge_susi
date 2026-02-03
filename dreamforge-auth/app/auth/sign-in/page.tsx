@@ -1,15 +1,24 @@
 'use client'
 
 import { SignIn } from '@clerk/nextjs'
-import { useEffect } from 'react'
+import { useEffect, Suspense } from 'react'
+import { useSearchParams } from 'next/navigation'
 import styles from '../page.module.css'
 
 /**
- * Sign-in page
- * Renders Clerk's SignIn component with logo and custom styling
- * Designed for local design and UX iteration
+ * Sign-in page content
  */
-export default function SignInPage() {
+function SignInContent() {
+  const searchParams = useSearchParams()
+  
+  useEffect(() => {
+    // Store redirect_uri in sessionStorage when this page loads
+    const redirectUri = searchParams.get('redirect_uri')
+    if (redirectUri) {
+      sessionStorage.setItem('dreamforge_redirect_uri', redirectUri)
+    }
+  }, [searchParams])
+
   useEffect(() => {
     // Wait for card to be rendered with retry mechanism
     const findCard = (): HTMLElement | null => {
@@ -146,6 +155,19 @@ export default function SignInPage() {
         />
       </div>
     </div>
+  )
+}
+
+/**
+ * Sign-in page
+ * Renders Clerk's SignIn component with logo and custom styling
+ * Designed for local design and UX iteration
+ */
+export default function SignInPage() {
+  return (
+    <Suspense fallback={null}>
+      <SignInContent />
+    </Suspense>
   )
 }
 
