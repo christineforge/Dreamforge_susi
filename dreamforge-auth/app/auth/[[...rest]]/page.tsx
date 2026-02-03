@@ -1,15 +1,24 @@
 'use client'
 
 import { SignUp } from '@clerk/nextjs'
-import { useEffect } from 'react'
+import { useEffect, Suspense } from 'react'
+import { useSearchParams } from 'next/navigation'
 import styles from '../page.module.css'
 
 /**
- * Authentication page - Catch-all route for Clerk
- * Renders Clerk's SignUp component with logo and custom styling
- * Designed for local design and UX iteration
+ * Sign-up page content
  */
-export default function AuthPage() {
+function SignUpContent() {
+  const searchParams = useSearchParams()
+  
+  useEffect(() => {
+    // Store redirect_uri in sessionStorage when this page loads
+    const redirectUri = searchParams.get('redirect_uri')
+    if (redirectUri) {
+      sessionStorage.setItem('dreamforge_redirect_uri', redirectUri)
+    }
+  }, [searchParams])
+
   useEffect(() => {
     // Wait for card to be rendered with retry mechanism
     const findCard = (): HTMLElement | null => {
@@ -143,9 +152,23 @@ export default function AuthPage() {
           path="/auth"
           signInUrl="/auth/sign-in"
           afterSignUpUrl="/auth/callback"
+          afterSignInUrl="/auth/callback"
         />
       </div>
     </div>
+  )
+}
+
+/**
+ * Authentication page - Catch-all route for Clerk
+ * Renders Clerk's SignUp component with logo and custom styling
+ * Designed for local design and UX iteration
+ */
+export default function AuthPage() {
+  return (
+    <Suspense fallback={null}>
+      <SignUpContent />
+    </Suspense>
   )
 }
 
