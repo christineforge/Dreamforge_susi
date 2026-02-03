@@ -142,6 +142,7 @@ export default function SignInPage() {
           routing="path"
           path="/auth/sign-in"
           signUpUrl="/auth"
+          afterSignInUrl="/auth/callback"
         />
       </div>
     </div>
