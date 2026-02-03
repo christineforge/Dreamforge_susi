@@ -1,14 +1,14 @@
 'use client'
 
 import { useAuth } from '@clerk/nextjs'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, Suspense } from 'react'
 import { useSearchParams, useRouter } from 'next/navigation'
 
 /**
  * Callback page for Unity authentication
  * Handles the redirect from Clerk and passes JWT token back to Unity
  */
-export default function CallbackPage() {
+function CallbackContent() {
   const { getToken, userId } = useAuth()
   const searchParams = useSearchParams()
   const router = useRouter()
@@ -18,9 +18,10 @@ export default function CallbackPage() {
   useEffect(() => {
     const handleCallback = async () => {
       try {
-        // Get the redirect URI from query params (Unity passes this)
+        // Get the redirect URI from query params OR sessionStorage (Unity passes this)
         const redirectUri = searchParams.get('redirect_uri') || 
-                           searchParams.get('unity_callback')
+                           searchParams.get('unity_callback') ||
+                           sessionStorage.getItem('dreamforge_redirect_uri')
         
         // Get the JWT token from Clerk
         const jwtToken = await getToken()
@@ -34,6 +35,9 @@ export default function CallbackPage() {
 
         // If Unity provided a callback URL, redirect with token
         if (redirectUri) {
+          // Clear the stored redirect_uri
+          sessionStorage.removeItem('dreamforge_redirect_uri')
+          
           try {
             // Parse the redirect URI
             const url = new URL(redirectUri)
@@ -142,6 +146,27 @@ export default function CallbackPage() {
         <p>Redirecting to Unity...</p>
       )}
     </div>
+  )
+}
+
+export default function CallbackPage() {
+  return (
+    <Suspense fallback={
+      <div style={{ 
+        display: 'flex', 
+        justifyContent: 'center', 
+        alignItems: 'center', 
+        height: '100vh',
+        color: 'white',
+        fontFamily: 'system-ui'
+      }}>
+        <div>
+          <h2>Loading...</h2>
+        </div>
+      </div>
+    }>
+      <CallbackContent />
+    </Suspense>
   )
 }
 
