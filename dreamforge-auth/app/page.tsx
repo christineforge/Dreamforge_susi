@@ -2,25 +2,44 @@
 
 import { useEffect } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
+import { useClerk, useUser } from '@clerk/nextjs'
 
 /**
- * Root page - passes redirect_uri through URL to sign-in page
+ * Root page - signs out first to ensure fresh sign-in, then redirects
  * Client-side redirect for Vercel compatibility
  */
 export default function Home() {
   const router = useRouter()
   const searchParams = useSearchParams()
+  const { signOut } = useClerk()
+  const { isSignedIn, isLoaded } = useUser()
   
   useEffect(() => {
-    const redirectUri = searchParams.get('redirect_uri')
-    
-    // Pass redirect_uri through URL params (more reliable than sessionStorage)
-    if (redirectUri) {
-      router.push(`/auth/sign-in?redirect_uri=${encodeURIComponent(redirectUri)}`)
-    } else {
-      router.push('/auth/sign-in')
+    async function handleRedirect() {
+      if (!isLoaded) return
+      
+      const redirectUri = searchParams.get('redirect_uri')
+      
+      // Store redirect_uri for callback page
+      if (redirectUri) {
+        sessionStorage.setItem('dreamforge_redirect_uri', redirectUri)
+      }
+      
+      // Always sign out first so user sees fresh sign-in options
+      if (isSignedIn) {
+        await signOut()
+      }
+      
+      // Redirect to sign-in page
+      if (redirectUri) {
+        router.push(`/auth/sign-in?redirect_uri=${encodeURIComponent(redirectUri)}`)
+      } else {
+        router.push('/auth/sign-in')
+      }
     }
-  }, [router, searchParams])
+    
+    handleRedirect()
+  }, [router, searchParams, signOut, isSignedIn, isLoaded])
   
   return null
 }
