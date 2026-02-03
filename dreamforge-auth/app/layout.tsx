@@ -29,7 +29,6 @@ export default function RootLayout({
       publishableKey={process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY!}
       appearance={{
         // Dark theme base for white text, but with transparent card
-        baseTheme: 'dark' as const,
         variables: {
           colorPrimary: '#00d4ff', // Teal-blue accent
           colorText: '#ffffff', // White text for all text outside inputs
