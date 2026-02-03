@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Game Created - DreamForge</title>
+  <!-- Outlook conditional comments for better rendering -->
+  <!--[if mso]>
+  <style type="text/css">
+    body, table, td, a { font-family: Arial, sans-serif !important; }
+    table { border-collapse: collapse; mso-table-lspace: 0pt; mso-table-rspace: 0pt; }
+  </style>
+  <![endif]-->
+</head>
+<body style="margin: 0; padding: 0; background-color: #0a0a1a; font-family: Arial, Helvetica, sans-serif;">
+  
+  <!-- Preheader Text (shows in email preview) -->
+  <div style="display: none; font-size: 1px; color: #0a0a1a; line-height: 1px; max-height: 0px; max-width: 0px; opacity: 0; overflow: hidden;">
+    Your game "{{ event.gameName }}" has been created in DreamForge!
+  </div>
+  
+  <!-- Wrapper Table -->
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color: #0a0a1a;">
+    <tr>
+      <td align="center" style="padding: 40px 20px;">
+        
+        <!-- Main Content Table -->
+        <table role="presentation" width="600" cellpadding="0" cellspacing="0" border="0" style="background-color: #1a1a3e; max-width: 600px; border-radius: 8px;">
+          
+          <!-- Logo/Header Section -->
+          <tr>
+            <td style="padding: 30px 30px 20px; text-align: center;">
+              <h1 style="margin: 0; color: #ffffff; font-size: 28px; font-weight: bold; line-height: 1.2;">
+                🎮 Your Game Has Been Created!
+              </h1>
+            </td>
+          </tr>
+          
+          <!-- Greeting -->
+          <tr>
+            <td style="padding: 0 30px 20px; color: #ffffff; font-size: 16px; line-height: 1.6;">
+              <p style="margin: 0 0 10px;">
+                Hi {{ user.name }},
+              </p>
+            </td>
+          </tr>
+          
+          <!-- Main Content -->
+          <tr>
+            <td style="padding: 0 30px 20px; color: #ffffff; font-size: 16px; line-height: 1.6;">
+              <p style="margin: 0 0 15px;">
+                Great news! Your game <strong style="color: #00d4ff;">"{{ event.gameName }}"</strong> has been successfully created in DreamForge.
+              </p>
+              <p style="margin: 0 0 15px;">
+                You're all set to start building your dream game. Ready to dive in?
+              </p>
+            </td>
+          </tr>
+          
+          <!-- Game Details (if available) -->
+          {% if event.gameDescription %}
+          <tr>
+            <td style="padding: 0 30px 20px;">
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color: #0f0f23; border-radius: 6px;">
+                <tr>
+                  <td style="padding: 20px; color: #ffffff; font-size: 14px; line-height: 1.6;">
+                    <p style="margin: 0 0 10px; font-weight: bold; color: #00d4ff;">Game Description:</p>
+                    <p style="margin: 0; color: #cccccc;">{{ event.gameDescription }}</p>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+          {% endif %}
+          
+          <!-- CTA Button -->
+          <tr>
+            <td style="padding: 0 30px 30px; text-align: center;">
+              <!-- Button Table (for better Outlook support) -->
+              <table role="presentation" cellpadding="0" cellspacing="0" border="0" align="center">
+                <tr>
+                  <td style="background-color: #00d4ff; border-radius: 8px;">
+                    <a href="{{ event.gameUrl }}" style="display: inline-block; padding: 14px 32px; color: #0a0a1a; text-decoration: none; font-size: 16px; font-weight: bold; border-radius: 8px; background-color: #00d4ff;">
+                      Open Your Game →
+                    </a>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+          
+          <!-- Alternative Link (for clients that break buttons) -->
+          <tr>
+            <td style="padding: 0 30px 20px; text-align: center;">
+              <p style="margin: 0; color: #888888; font-size: 14px;">
+                Or copy and paste this link:<br>
+                <a href="{{ event.gameUrl }}" style="color: #00d4ff; text-decoration: underline; word-break: break-all;">{{ event.gameUrl }}</a>
+              </p>
+            </td>
+          </tr>
+          
+          <!-- Divider -->
+          <tr>
+            <td style="padding: 0 30px;">
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+                <tr>
+                  <td style="border-top: 1px solid #2a2a4e; padding: 20px 0 0;"></td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+          
+          <!-- Footer -->
+          <tr>
+            <td style="padding: 20px 30px 30px; color: #888888; font-size: 12px; line-height: 1.6; text-align: center;">
+              <p style="margin: 0 0 10px;">
+                <strong style="color: #ffffff;">DreamForge</strong><br>
+                Build Your Dreams
+              </p>
+              <p style="margin: 10px 0 0;">
+                <a href="{{ unsubscribeUrl }}" style="color: #888888; text-decoration: underline;">Unsubscribe</a> | 
+                <a href="{{ preferencesUrl }}" style="color: #888888; text-decoration: underline;">Email Preferences</a>
+              </p>
+            </td>
+          </tr>
+          
+        </table>
+        
+        <!-- Spacer for mobile -->
+        <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+          <tr>
+            <td style="padding: 20px 0; font-size: 12px; color: #666666; text-align: center;">
+              <p style="margin: 0;">
+                Having trouble viewing this email? 
+                <a href="{{ webVersionUrl }}" style="color: #00d4ff; text-decoration: underline;">View in browser</a>
+              </p>
+            </td>
+          </tr>
+        </table>
+        
+      </td>
+    </tr>
+  </table>
+  
+</body>
+</html>
+
+

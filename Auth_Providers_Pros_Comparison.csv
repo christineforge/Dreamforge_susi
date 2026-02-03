@@ -1,0 +1,14 @@
+Provider,Pros - Strengths,Pros - Opportunities
+Auth0,"Full UI ownership; Best-in-class federation; Excellent migration tooling","Scales well for complex auth; Large ecosystem & maturity"
+Firebase Auth,"Free tier up to 50k MAU; Very fast to implement; Excellent SDKs","Great for rapid prototyping"
+Clerk,"Excellent developer experience; Polished pre-built UI","Fast go-to-market; Good balance of control vs speed"
+Keycloak,"Open-source; Unlimited users; Full UI & flow control","No vendor lock-in; Highly customizable"
+AWS Cognito,"Free tier up to 50k MAU; Low per-user cost at scale","Strong if already AWS-native"
+SuperTokens,"Open-source option; Full custom UI; Low lock-in","Flexible architecture; Cloud or self-hosted"
+Nhost,"Open-source; PostgreSQL-native; Full control","Strong GraphQL-first stack"
+
+
+
+
+
+
