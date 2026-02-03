@@ -1,0 +1,12 @@
+{
+  "name": "dreamforge-susi-root",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build": "cd dreamforge-auth && npm install && npm run build"
+  },
+  "dependencies": {
+    "next": "^14.2.0"
+  }
+}
+
