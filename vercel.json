@@ -2,7 +2,6 @@
   "buildCommand": "cd dreamforge-auth && npm install && npm run build",
   "outputDirectory": "dreamforge-auth/.next",
   "installCommand": "cd dreamforge-auth && npm install",
-  "framework": "nextjs",
-  "rootDirectory": "dreamforge-auth"
+  "framework": "nextjs"
 }
 
