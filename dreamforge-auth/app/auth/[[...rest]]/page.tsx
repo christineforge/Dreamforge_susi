@@ -153,6 +153,9 @@ function SignUpContent() {
           signInUrl="/auth/sign-in"
           afterSignUpUrl="/auth/callback"
           afterSignInUrl="/auth/callback"
+          unsafeMetadata={{
+            // Allow OAuth to complete without additional form fields
+          }}
         />
       </div>
     </div>
