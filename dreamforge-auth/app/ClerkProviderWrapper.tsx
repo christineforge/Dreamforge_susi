@@ -69,19 +69,13 @@ export default function ClerkProviderWrapper({
               boxShadow: '0 0 0 2px rgba(0, 212, 255, 0.2)',
             },
           },
-          // Hide only "Secured by Clerk" footer, keep sign-in link visible
+          // Hide only "Secured by Clerk" footer
           footerPages: {
             display: 'none',
           },
-          // Footer container - dark, transparent, blends with main card
+          // Hide the entire formFooter (black rectangle)
           formFooter: {
-            backgroundColor: 'rgba(10, 10, 26, 0.6)', // Dark transparent background
-            border: 'none',
-            borderTop: '1px solid rgba(255, 255, 255, 0.08)', // Subtle divider
-            borderRadius: '0 0 1.5rem 1.5rem', // Rounded bottom corners
-            padding: '1.5rem 0 1rem 0',
-            marginTop: '1.5rem',
-            opacity: 0.85, // Reduced contrast
+            display: 'none',
           },
           // Footer action container
           footerAction: {

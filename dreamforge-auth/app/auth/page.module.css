@@ -422,10 +422,12 @@
 
 
 /* Hide Clerk "Secured by Clerk" footer and development mode */
-/* Keep formFooter visible as it contains the "Sign in" / "Sign up" link */
+/* Hide the entire formFooter (black rectangle) */
 .cardWrapper :global([class*="cl-footerPages"]),
 .cardWrapper :global([class*="cl-footerPagesLink"]),
-.cardWrapper :global([class*="cl-devBar"]) {
+.cardWrapper :global([class*="cl-devBar"]),
+.cardWrapper :global([class*="cl-formFooter"]),
+.cardWrapper :global([class*="cl-footer"]) {
   display: none !important;
 }
 
@@ -528,6 +530,37 @@
   line-height: 1.2 !important;
 }
 
+/* Account link below title */
+.accountLinkContainer {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  margin-top: 1rem !important;
+  margin-bottom: 0 !important;
+  padding: 0 !important;
+}
+
+.accountLinkText {
+  color: rgba(255, 255, 255, 0.7) !important;
+  font-family: var(--font-montserrat), 'Montserrat', sans-serif !important;
+  font-size: 0.875rem !important;
+  font-weight: 400 !important;
+  margin-right: 0.25rem !important;
+}
+
+.accountLink {
+  color: rgba(0, 212, 255, 0.8) !important;
+  font-family: var(--font-montserrat), 'Montserrat', sans-serif !important;
+  font-size: 0.875rem !important;
+  font-weight: 500 !important;
+  text-decoration: none !important;
+  transition: color 0.2s ease !important;
+}
+
+.accountLink:hover {
+  color: rgba(0, 212, 255, 1) !important;
+}
+
 /* Remove any spacing after header title */
 .cardWrapper :global([class*="cl-headerTitle"]) + * {
   margin-top: 0 !important;
@@ -602,23 +635,33 @@
   margin-bottom: 0 !important;
 }
 
-/* Remove all spacing from divider if it exists */
-.cardWrapper :global([class*="cl-divider"]) {
-  margin-top: 0 !important;
-  margin-bottom: 0 !important;
-  padding: 0 !important;
-  height: 0 !important;
-  display: none !important; /* Hide divider completely if it exists */
+/* Custom divider with "or" text - will be injected via JavaScript */
+.customDivider {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 100% !important;
+  margin: 1.5rem 0 !important;
+  gap: 1rem !important;
 }
 
-/* Reduce spacing in the divider/or section if it exists */
-.cardWrapper :global([class*="cl-divider"]),
-.cardWrapper :global([class*="cl-dividerLine"]),
-.cardWrapper :global([class*="cl-dividerText"]) {
-  margin-top: 0 !important;
-  margin-bottom: 0 !important;
-  padding: 0 !important;
-  height: 0 !important;
+.customDividerLine {
+  flex: 1 !important;
+  height: 1px !important;
+  background: rgba(255, 255, 255, 0.2) !important;
+}
+
+.customDividerText {
+  color: rgba(255, 255, 255, 0.7) !important;
+  font-family: var(--font-montserrat), 'Montserrat', sans-serif !important;
+  font-size: 0.875rem !important;
+  font-weight: 400 !important;
+  white-space: nowrap !important;
+}
+
+/* Hide Clerk's default divider */
+.cardWrapper :global([class*="cl-divider"]) {
+  display: none !important;
 }
 
 /* Ensure header title is visible */

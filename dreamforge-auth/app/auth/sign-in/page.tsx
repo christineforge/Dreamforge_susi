@@ -16,6 +16,14 @@ export default function SignInPage() {
       return document.querySelector('[class*="cl-card"]') as HTMLElement;
     };
 
+    const findHeaderTitle = (): HTMLElement | null => {
+      return document.querySelector('[class*="cl-headerTitle"]') as HTMLElement;
+    };
+
+    const findSocialButtons = (): HTMLElement | null => {
+      return document.querySelector('[class*="cl-socialButtonsBlock"]') as HTMLElement;
+    };
+
     let cardWrapper: HTMLElement | null = null;
     let glowContainer: HTMLDivElement | null = null;
     let glowCircle: HTMLDivElement | null = null;
@@ -82,6 +90,85 @@ export default function SignInPage() {
 
     trySetup();
 
+    // Setup account link and divider
+    const setupAccountLinkAndDivider = () => {
+      const headerTitle = findHeaderTitle();
+      const socialButtons = findSocialButtons();
+      
+      if (!headerTitle || !socialButtons) {
+        return false;
+      }
+
+      // Check if account link already exists
+      if (document.querySelector('[data-account-link-container]')) {
+        return true;
+      }
+
+      // Create account link container
+      const accountLinkContainer = document.createElement('div');
+      accountLinkContainer.setAttribute('data-account-link-container', 'true');
+      accountLinkContainer.className = styles.accountLinkContainer;
+      
+      const accountLinkText = document.createElement('span');
+      accountLinkText.className = styles.accountLinkText;
+      accountLinkText.textContent = "Don't have an account?";
+      
+      const accountLink = document.createElement('a');
+      accountLink.className = styles.accountLink;
+      accountLink.href = '/auth';
+      accountLink.textContent = 'Sign up';
+      
+      accountLinkContainer.appendChild(accountLinkText);
+      accountLinkContainer.appendChild(accountLink);
+      
+      // Insert after header title
+      if (headerTitle.parentNode) {
+        headerTitle.parentNode.insertBefore(accountLinkContainer, headerTitle.nextSibling);
+      }
+
+      // Create divider before social buttons
+      if (!document.querySelector('[data-custom-divider]')) {
+        const divider = document.createElement('div');
+        divider.setAttribute('data-custom-divider', 'true');
+        divider.className = styles.customDivider;
+        
+        const dividerLineLeft = document.createElement('div');
+        dividerLineLeft.className = styles.customDividerLine;
+        
+        const dividerText = document.createElement('span');
+        dividerText.className = styles.customDividerText;
+        dividerText.textContent = 'or';
+        
+        const dividerLineRight = document.createElement('div');
+        dividerLineRight.className = styles.customDividerLine;
+        
+        divider.appendChild(dividerLineLeft);
+        divider.appendChild(dividerText);
+        divider.appendChild(dividerLineRight);
+        
+        // Insert before social buttons
+        if (socialButtons.parentNode) {
+          socialButtons.parentNode.insertBefore(divider, socialButtons);
+        }
+      }
+
+      return true;
+    };
+
+    // Retry setup for account link and divider
+    let retryCountLink = 0;
+    const maxRetriesLink = 10;
+    const trySetupLink = () => {
+      if (setupAccountLinkAndDivider()) {
+        return;
+      }
+      retryCountLink++;
+      if (retryCountLink < maxRetriesLink) {
+        setTimeout(trySetupLink, 100);
+      }
+    };
+
+    trySetupLink();
 
     const handleMouseMove = (e: MouseEvent) => {
       if (!cardWrapper) {
