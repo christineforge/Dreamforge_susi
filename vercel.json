@@ -1,6 +1,7 @@
 {
-  "buildCommand": "cd dreamforge-auth && npm run build",
-  "installCommand": "cd dreamforge-auth && npm install",
-  "framework": "nextjs"
+  "buildCommand": "npm run build",
+  "installCommand": "npm install",
+  "framework": "nextjs",
+  "rootDirectory": "dreamforge-auth"
 }
 
