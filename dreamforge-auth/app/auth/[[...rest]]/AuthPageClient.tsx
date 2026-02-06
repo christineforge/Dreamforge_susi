@@ -151,6 +151,17 @@ export default function AuthPageClient() {
       setTimeout(styleSocialButtons, 100);
       setTimeout(styleSocialButtons, 500);
       
+      // Observer to style social buttons when they appear
+      const observer = new MutationObserver(() => {
+        styleSocialButtons();
+      });
+
+      // Observe the card for changes
+      const card = findCard();
+      if (card) {
+        observer.observe(card, { childList: true, subtree: true });
+      }
+      
       // Create divider BEFORE social buttons
       if (!document.querySelector('[data-custom-divider]')) {
         const divider = document.createElement('div');
@@ -212,20 +223,19 @@ export default function AuthPageClient() {
     trySetupLink();
 
     // Observer to style social buttons when they appear
-    const observer = new MutationObserver(() => {
-      const socialButtonElements = document.querySelectorAll('[class*="cl-socialButtonsBlockButton"]');
-      socialButtonElements.forEach((button: Element) => {
-        const htmlButton = button as HTMLElement;
-        htmlButton.style.border = '1px solid rgba(255, 255, 255, 1)';
-        htmlButton.style.backgroundColor = 'rgba(255, 255, 255, 0.06)';
-        htmlButton.style.borderRadius = '0.5rem';
-        htmlButton.style.padding = '0.75rem 1rem';
-      });
-    });
-
-    // Observe the card for changes
+    let observer: MutationObserver | null = null;
     const card = findCard();
     if (card) {
+      observer = new MutationObserver(() => {
+        const socialButtonElements = document.querySelectorAll('[class*="cl-socialButtonsBlockButton"]');
+        socialButtonElements.forEach((button: Element) => {
+          const htmlButton = button as HTMLElement;
+          htmlButton.style.border = '1px solid rgba(255, 255, 255, 1)';
+          htmlButton.style.backgroundColor = 'rgba(255, 255, 255, 0.06)';
+          htmlButton.style.borderRadius = '0.5rem';
+          htmlButton.style.padding = '0.75rem 1rem';
+        });
+      });
       observer.observe(card, { childList: true, subtree: true });
     }
 
@@ -274,7 +284,9 @@ export default function AuthPageClient() {
     
     return () => {
       window.removeEventListener('mousemove', handleMouseMove);
-      observer.disconnect();
+      if (observer) {
+        observer.disconnect();
+      }
       if (glowContainer?.parentNode) {
         glowContainer.parentNode.removeChild(glowContainer);
       }
