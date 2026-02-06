@@ -92,46 +92,43 @@ export default function AuthPageClient() {
     const setupAccountLinkAndDivider = () => {
       const headerTitle = findHeaderTitle();
       const socialButtons = findSocialButtons();
+      const card = findCard();
       
-      if (!headerTitle || !socialButtons) {
-        return false;
-      }
-
-      // Check if account link already exists
-      if (document.querySelector('[data-account-link-container]')) {
-        return true;
-      }
-
-      // Create account link container
-      const accountLinkContainer = document.createElement('div');
-      accountLinkContainer.setAttribute('data-account-link-container', 'true');
-      accountLinkContainer.style.display = 'flex';
-      accountLinkContainer.style.alignItems = 'center';
-      accountLinkContainer.style.justifyContent = 'center';
-      accountLinkContainer.style.marginTop = '1rem';
-      accountLinkContainer.style.marginBottom = '0';
-      accountLinkContainer.style.width = '100%';
-      accountLinkContainer.style.visibility = 'visible';
-      accountLinkContainer.style.opacity = '1';
-      
-      const accountLinkText = document.createElement('div');
-      accountLinkText.style.color = 'rgba(255, 255, 255, 0.7)';
-      accountLinkText.style.fontSize = '0.875rem';
-      accountLinkText.style.textAlign = 'center';
-      accountLinkText.style.lineHeight = '1.5';
-      accountLinkText.innerHTML = 'Have an account?<br><a href="/auth/sign-in" style="color: rgba(0, 212, 255, 0.8); text-decoration: none; font-weight: 500;">Sign in</a>';
-      
-      accountLinkContainer.appendChild(accountLinkText);
-      
-      // Insert after header title - make sure it's visible and at the top
-      if (headerTitle && headerTitle.parentNode) {
-        // Find the header container
+      // Setup account link - only needs headerTitle
+      if (headerTitle && !document.querySelector('[data-account-link-container]')) {
+        // Create account link container
+        const accountLinkContainer = document.createElement('div');
+        accountLinkContainer.setAttribute('data-account-link-container', 'true');
+        accountLinkContainer.style.display = 'flex';
+        accountLinkContainer.style.alignItems = 'center';
+        accountLinkContainer.style.justifyContent = 'center';
+        accountLinkContainer.style.marginTop = '1rem';
+        accountLinkContainer.style.marginBottom = '0';
+        accountLinkContainer.style.width = '100%';
+        accountLinkContainer.style.visibility = 'visible';
+        accountLinkContainer.style.opacity = '1';
+        
+        const accountLinkText = document.createElement('div');
+        accountLinkText.style.color = 'rgba(255, 255, 255, 0.7)';
+        accountLinkText.style.fontSize = '0.875rem';
+        accountLinkText.style.textAlign = 'center';
+        accountLinkText.style.lineHeight = '1.5';
+        accountLinkText.innerHTML = 'Have an account?<br><a href="/auth/sign-in" style="color: rgba(0, 212, 255, 0.8); text-decoration: none; font-weight: 500;">Sign in</a>';
+        
+        accountLinkContainer.appendChild(accountLinkText);
+        
+        // Insert after header title - make sure it's visible and at the top
         const headerContainer = headerTitle.closest('[class*="cl-header"]');
         if (headerContainer && headerContainer.parentNode && headerContainer.nextSibling) {
           headerContainer.parentNode.insertBefore(accountLinkContainer, headerContainer.nextSibling);
         } else {
           headerTitle.after(accountLinkContainer);
         }
+      }
+
+      // Setup divider and social buttons styling - needs socialButtons
+      if (!socialButtons) {
+        return false;
       }
 
       // Style social buttons with white border and 6% transparent background
@@ -152,12 +149,11 @@ export default function AuthPageClient() {
       setTimeout(styleSocialButtons, 500);
       
       // Observer to style social buttons when they appear
-      const observer = new MutationObserver(() => {
-        styleSocialButtons();
-      });
-
-      // Observe the card for changes (reuse card variable from above)
+      let observer: MutationObserver | null = null;
       if (card) {
+        observer = new MutationObserver(() => {
+          styleSocialButtons();
+        });
         observer.observe(card, { childList: true, subtree: true });
       }
       
