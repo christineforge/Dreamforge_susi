@@ -171,10 +171,10 @@ export default function AuthPageClient() {
         const dividerLineLeft = document.createElement('div');
         dividerLineLeft.style.flex = '1';
         dividerLineLeft.style.height = '1px';
-        dividerLineLeft.style.background = 'rgba(255, 255, 255, 0.2)';
+        dividerLineLeft.style.background = 'rgba(255, 255, 255, 1)';
         
         const dividerText = document.createElement('span');
-        dividerText.style.color = 'rgba(255, 255, 255, 0.7)';
+        dividerText.style.color = 'rgba(255, 255, 255, 1)';
         dividerText.style.fontSize = '0.875rem';
         dividerText.style.whiteSpace = 'nowrap';
         dividerText.textContent = 'or';
@@ -182,7 +182,7 @@ export default function AuthPageClient() {
         const dividerLineRight = document.createElement('div');
         dividerLineRight.style.flex = '1';
         dividerLineRight.style.height = '1px';
-        dividerLineRight.style.background = 'rgba(255, 255, 255, 0.2)';
+        dividerLineRight.style.background = 'rgba(255, 255, 255, 1)';
         
         divider.appendChild(dividerLineLeft);
         divider.appendChild(dividerText);

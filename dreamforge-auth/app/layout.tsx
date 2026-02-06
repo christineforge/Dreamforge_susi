@@ -40,7 +40,7 @@ export default function RootLayout({
         elements: {
           // Continue button - teal-blue gradient (will be overridden by CSS)
           formButtonPrimary: {
-            borderRadius: '0.75rem',
+            borderRadius: '9999px',
             background: 'linear-gradient(135deg, #00d4ff 0%, #00b8d4 100%)',
             backgroundColor: '#00d4ff',
             color: '#ffffff',
