@@ -80,6 +80,34 @@ export default function RootLayout({
           formFooter: {
             display: 'none',
           },
+          // Hide footer action (bottom links)
+          footerAction: {
+            display: 'none',
+          },
+          // Hide header subtitle
+          headerSubtitle: {
+            display: 'none',
+          },
+          // Center header content
+          header: {
+            textAlign: 'center',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+          },
+          // Center logo
+          logoBox: {
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            width: '100%',
+            margin: '0 auto',
+          },
+          // Center header title
+          headerTitle: {
+            textAlign: 'center',
+            width: '100%',
+          },
           // Footer action container
           footerAction: {
             color: 'rgba(255, 255, 255, 0.7)', // Reduced contrast text
@@ -108,11 +136,14 @@ export default function RootLayout({
             opacity: 0.6,
           },
           socialButtonsBlockButton: {
-            borderColor: 'rgba(255, 255, 255, 0.3)',
-            backgroundColor: 'rgba(255, 255, 255, 0.15)',
+            borderColor: 'rgba(255, 255, 255, 1)',
+            borderWidth: '1px',
+            borderStyle: 'solid',
+            backgroundColor: 'rgba(255, 255, 255, 0.06)',
+            borderRadius: '0.5rem',
             '&:hover': {
-              borderColor: 'rgba(255, 255, 255, 0.4)',
-              backgroundColor: 'rgba(255, 255, 255, 0.25)',
+              borderColor: 'rgba(255, 255, 255, 1)',
+              backgroundColor: 'rgba(255, 255, 255, 0.1)',
             },
           },
         },

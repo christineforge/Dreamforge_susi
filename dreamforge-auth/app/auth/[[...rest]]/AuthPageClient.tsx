@@ -110,22 +110,14 @@ export default function AuthPageClient() {
       accountLinkContainer.style.justifyContent = 'center';
       accountLinkContainer.style.marginTop = '1rem';
       
-      const accountLinkText = document.createElement('span');
+      const accountLinkText = document.createElement('div');
       accountLinkText.style.color = 'rgba(255, 255, 255, 0.7)';
       accountLinkText.style.fontSize = '0.875rem';
-      accountLinkText.style.marginRight = '0.25rem';
-      accountLinkText.textContent = 'Already have an account?';
-      
-      const accountLink = document.createElement('a');
-      accountLink.style.color = 'rgba(0, 212, 255, 0.8)';
-      accountLink.style.fontSize = '0.875rem';
-      accountLink.style.fontWeight = '500';
-      accountLink.style.textDecoration = 'none';
-      accountLink.href = '/auth/sign-in';
-      accountLink.textContent = 'Sign in';
+      accountLinkText.style.textAlign = 'center';
+      accountLinkText.style.lineHeight = '1.5';
+      accountLinkText.innerHTML = 'Have an account?<br><a href="/auth/sign-in" style="color: rgba(0, 212, 255, 0.8); text-decoration: none; font-weight: 500;">Sign in</a>';
       
       accountLinkContainer.appendChild(accountLinkText);
-      accountLinkContainer.appendChild(accountLink);
       
       // Insert after header title
       if (headerTitle.parentNode) {
