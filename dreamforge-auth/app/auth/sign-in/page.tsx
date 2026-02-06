@@ -110,6 +110,10 @@ export default function SignInPage() {
       accountLinkContainer.style.alignItems = 'center';
       accountLinkContainer.style.justifyContent = 'center';
       accountLinkContainer.style.marginTop = '1rem';
+      accountLinkContainer.style.marginBottom = '0';
+      accountLinkContainer.style.width = '100%';
+      accountLinkContainer.style.visibility = 'visible';
+      accountLinkContainer.style.opacity = '1';
       
       const accountLinkText = document.createElement('div');
       accountLinkText.style.color = 'rgba(255, 255, 255, 0.7)';
@@ -120,12 +124,35 @@ export default function SignInPage() {
       
       accountLinkContainer.appendChild(accountLinkText);
       
-      // Insert after header title
-      if (headerTitle.parentNode) {
-        headerTitle.parentNode.insertBefore(accountLinkContainer, headerTitle.nextSibling);
+      // Insert after header title - make sure it's visible and at the top
+      if (headerTitle && headerTitle.parentNode) {
+        // Find the header container
+        const headerContainer = headerTitle.closest('[class*="cl-header"]');
+        if (headerContainer && headerContainer.nextSibling) {
+          headerContainer.parentNode.insertBefore(accountLinkContainer, headerContainer.nextSibling);
+        } else {
+          headerTitle.after(accountLinkContainer);
+        }
       }
 
-      // Create divider before social buttons
+      // Style social buttons with white border and 6% transparent background
+      const styleSocialButtons = () => {
+        const socialButtonElements = document.querySelectorAll('[class*="cl-socialButtonsBlockButton"]');
+        socialButtonElements.forEach((button: Element) => {
+          const htmlButton = button as HTMLElement;
+          htmlButton.style.border = '1px solid rgba(255, 255, 255, 1)';
+          htmlButton.style.backgroundColor = 'rgba(255, 255, 255, 0.06)';
+          htmlButton.style.borderRadius = '0.5rem';
+          htmlButton.style.padding = '0.75rem 1rem';
+        });
+      };
+      
+      // Style social buttons immediately and retry
+      styleSocialButtons();
+      setTimeout(styleSocialButtons, 100);
+      setTimeout(styleSocialButtons, 500);
+      
+      // Create divider BEFORE social buttons
       if (!document.querySelector('[data-custom-divider]')) {
         const divider = document.createElement('div');
         divider.setAttribute('data-custom-divider', 'true');
@@ -156,8 +183,8 @@ export default function SignInPage() {
         divider.appendChild(dividerText);
         divider.appendChild(dividerLineRight);
         
-        // Insert before social buttons
-        if (socialButtons.parentNode) {
+        // Insert BEFORE social buttons (at the beginning of social buttons container)
+        if (socialButtons && socialButtons.parentNode) {
           socialButtons.parentNode.insertBefore(divider, socialButtons);
         }
       }
@@ -225,6 +252,7 @@ export default function SignInPage() {
     
     return () => {
       window.removeEventListener('mousemove', handleMouseMove);
+      observer.disconnect();
       if (glowContainer?.parentNode) {
         glowContainer.parentNode.removeChild(glowContainer);
       }

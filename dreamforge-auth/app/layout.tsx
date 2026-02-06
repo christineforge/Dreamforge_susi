@@ -109,15 +109,22 @@ export default function RootLayout({
             width: '100%',
           },
           socialButtonsBlockButton: {
-            borderColor: 'rgba(255, 255, 255, 1)',
-            borderWidth: '1px',
-            borderStyle: 'solid',
-            backgroundColor: 'rgba(255, 255, 255, 0.06)',
-            borderRadius: '0.5rem',
+            border: '1px solid rgba(255, 255, 255, 1) !important',
+            borderColor: 'rgba(255, 255, 255, 1) !important',
+            borderWidth: '1px !important',
+            borderStyle: 'solid !important',
+            backgroundColor: 'rgba(255, 255, 255, 0.06) !important',
+            borderRadius: '0.5rem !important',
+            padding: '0.75rem 1rem !important',
             '&:hover': {
-              borderColor: 'rgba(255, 255, 255, 1)',
-              backgroundColor: 'rgba(255, 255, 255, 0.1)',
+              borderColor: 'rgba(255, 255, 255, 1) !important',
+              backgroundColor: 'rgba(255, 255, 255, 0.1) !important',
             },
+          },
+          // Also target the button element inside
+          socialButtonsBlockButtonButton: {
+            border: '1px solid rgba(255, 255, 255, 1) !important',
+            backgroundColor: 'rgba(255, 255, 255, 0.06) !important',
           },
         },
       }}
