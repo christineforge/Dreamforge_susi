@@ -109,29 +109,29 @@ export default function AuthPageClient() {
       accountLinkContainer.style.alignItems = 'center';
       accountLinkContainer.style.justifyContent = 'center';
       accountLinkContainer.style.marginTop = '1rem';
-      accountLinkContainer.style.marginBottom = '0';
       accountLinkContainer.style.width = '100%';
-      accountLinkContainer.style.visibility = 'visible';
-      accountLinkContainer.style.opacity = '1';
+      accountLinkContainer.style.textAlign = 'center';
       
-      const accountLinkText = document.createElement('div');
+      const accountLinkText = document.createElement('span');
       accountLinkText.style.color = 'rgba(255, 255, 255, 0.7)';
       accountLinkText.style.fontSize = '0.875rem';
-      accountLinkText.style.textAlign = 'center';
-      accountLinkText.style.lineHeight = '1.5';
-      accountLinkText.innerHTML = 'Have an account?<br><a href="/auth/sign-in" style="color: rgba(0, 212, 255, 0.8); text-decoration: none; font-weight: 500;">Sign in</a>';
+      accountLinkText.style.marginRight = '0.25rem';
+      accountLinkText.textContent = 'Already have an account?';
+      
+      const accountLink = document.createElement('a');
+      accountLink.style.color = 'rgba(0, 212, 255, 0.8)';
+      accountLink.style.fontSize = '0.875rem';
+      accountLink.style.fontWeight = '500';
+      accountLink.style.textDecoration = 'none';
+      accountLink.href = '/auth/sign-in';
+      accountLink.textContent = 'Sign in';
       
       accountLinkContainer.appendChild(accountLinkText);
+      accountLinkContainer.appendChild(accountLink);
       
-      // Insert after header title - make sure it's visible and at the top
-      if (headerTitle && headerTitle.parentNode) {
-        // Find the header container
-        const headerContainer = headerTitle.closest('[class*="cl-header"]');
-        if (headerContainer && headerContainer.parentNode && headerContainer.nextSibling) {
-          headerContainer.parentNode.insertBefore(accountLinkContainer, headerContainer.nextSibling);
-        } else {
-          headerTitle.after(accountLinkContainer);
-        }
+      // Insert after header title
+      if (headerTitle.parentNode) {
+        headerTitle.parentNode.insertBefore(accountLinkContainer, headerTitle.nextSibling);
       }
 
       // Style social buttons with white border and 6% transparent background
@@ -182,9 +182,14 @@ export default function AuthPageClient() {
         divider.appendChild(dividerText);
         divider.appendChild(dividerLineRight);
         
-        // Insert BEFORE social buttons (at the beginning of social buttons container)
+        // Insert BEFORE social buttons - ensure divider comes first
         if (socialButtons && socialButtons.parentNode) {
+          // Insert divider before social buttons
           socialButtons.parentNode.insertBefore(divider, socialButtons);
+          // Ensure social buttons are after the divider
+          if (divider.nextSibling !== socialButtons) {
+            socialButtons.parentNode.insertBefore(socialButtons, divider.nextSibling);
+          }
         }
       }
 
