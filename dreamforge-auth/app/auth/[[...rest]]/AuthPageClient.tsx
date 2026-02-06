@@ -129,9 +129,12 @@ export default function AuthPageClient() {
       accountLinkContainer.appendChild(accountLinkText);
       accountLinkContainer.appendChild(accountLink);
       
-      // Insert after header title
-      if (headerTitle.parentNode) {
-        headerTitle.parentNode.insertBefore(accountLinkContainer, headerTitle.nextSibling);
+      // Insert at the bottom of the card
+      const card = findCard();
+      if (card) {
+        accountLinkContainer.style.marginTop = '1.5rem';
+        accountLinkContainer.style.marginBottom = '0';
+        card.appendChild(accountLinkContainer);
       }
 
       // Style social buttons with white border and 6% transparent background
