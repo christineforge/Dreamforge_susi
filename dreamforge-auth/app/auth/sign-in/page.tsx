@@ -114,7 +114,7 @@ export default function SignInPage() {
         accountLinkText.style.fontSize = '0.875rem';
         accountLinkText.style.textAlign = 'center';
         accountLinkText.style.lineHeight = '1.5';
-        accountLinkText.innerHTML = 'No account?<br><a href="/auth" style="color: rgba(0, 212, 255, 0.8); text-decoration: none; font-weight: 500;">Sign up</a>';
+        accountLinkText.innerHTML = 'No account? - <a href="/auth" style="color: #9d4edd; text-decoration: none; font-weight: 500;">Sign up</a>';
         
         accountLinkContainer.appendChild(accountLinkText);
         

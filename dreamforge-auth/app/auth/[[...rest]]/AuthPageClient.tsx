@@ -113,7 +113,7 @@ export default function AuthPageClient() {
         accountLinkText.style.fontSize = '0.875rem';
         accountLinkText.style.textAlign = 'center';
         accountLinkText.style.lineHeight = '1.5';
-        accountLinkText.innerHTML = 'Have an account?<br><a href="/auth/sign-in" style="color: rgba(0, 212, 255, 0.8); text-decoration: none; font-weight: 500;">Sign in</a>';
+        accountLinkText.innerHTML = 'Have an account? - <a href="/auth/sign-in" style="color: #9d4edd; text-decoration: none; font-weight: 500;">Sign in</a>';
         
         accountLinkContainer.appendChild(accountLinkText);
         
