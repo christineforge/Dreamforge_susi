@@ -156,48 +156,6 @@ export default function AuthPageClient() {
         });
         observer.observe(card, { childList: true, subtree: true });
       }
-      
-      // Create divider BEFORE social buttons
-      if (!document.querySelector('[data-custom-divider]')) {
-        const divider = document.createElement('div');
-        divider.setAttribute('data-custom-divider', 'true');
-        divider.style.display = 'flex';
-        divider.style.alignItems = 'center';
-        divider.style.justifyContent = 'center';
-        divider.style.width = '100%';
-        divider.style.margin = '1.5rem 0';
-        divider.style.gap = '1rem';
-        
-        const dividerLineLeft = document.createElement('div');
-        dividerLineLeft.style.flex = '1';
-        dividerLineLeft.style.height = '1px';
-        dividerLineLeft.style.background = 'rgba(255, 255, 255, 1)';
-        
-        const dividerText = document.createElement('span');
-        dividerText.style.color = 'rgba(255, 255, 255, 1)';
-        dividerText.style.fontSize = '0.875rem';
-        dividerText.style.whiteSpace = 'nowrap';
-        dividerText.textContent = 'or';
-        
-        const dividerLineRight = document.createElement('div');
-        dividerLineRight.style.flex = '1';
-        dividerLineRight.style.height = '1px';
-        dividerLineRight.style.background = 'rgba(255, 255, 255, 1)';
-        
-        divider.appendChild(dividerLineLeft);
-        divider.appendChild(dividerText);
-        divider.appendChild(dividerLineRight);
-        
-        // Insert BEFORE social buttons - ensure divider comes first
-        if (socialButtons && socialButtons.parentNode) {
-          // Insert divider before social buttons
-          socialButtons.parentNode.insertBefore(divider, socialButtons);
-          // Ensure social buttons are after the divider
-          if (divider.nextSibling !== socialButtons) {
-            socialButtons.parentNode.insertBefore(socialButtons, divider.nextSibling);
-          }
-        }
-      }
 
       return true;
     };
