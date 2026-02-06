@@ -230,6 +230,7 @@ export default function SignInPage() {
           path="/auth/sign-in"
           signUpUrl="/auth"
           afterSignInUrl="/auth/callback"
+          redirectUrl="/auth/callback"
         />
       </div>
     </div>

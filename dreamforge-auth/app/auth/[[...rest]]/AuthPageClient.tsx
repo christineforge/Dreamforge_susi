@@ -229,6 +229,7 @@ export default function AuthPageClient() {
           path="/auth"
           signInUrl="/auth/sign-in"
           afterSignUpUrl="/auth/callback"
+          redirectUrl="/auth/callback"
         />
       </div>
     </div>

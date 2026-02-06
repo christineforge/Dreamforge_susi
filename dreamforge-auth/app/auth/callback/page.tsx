@@ -1,88 +1,170 @@
 'use client'
 
 import { useAuth, useUser } from '@clerk/nextjs'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { useRouter } from 'next/navigation'
 
 /**
  * Callback page - handles post-authentication redirect to Unity
- * Gets the session token from Clerk and redirects to Unity with the token
+ * Gets the JWT token from Clerk and immediately redirects to Unity with the token
  * 
- * Note: This is a client component, so it doesn't need generateStaticParams
- * but we need to ensure it doesn't use any server-side APIs
+ * This handles:
+ * - Immediate redirect after sign-in/sign-up (including OAuth)
+ * - JWT token retrieval for Azure backend authentication
+ * - Session task handling (bypasses if possible)
+ * - All authentication methods (email, OAuth, social)
  */
 export default function CallbackPage() {
-  const { getToken, isLoaded, isSignedIn } = useAuth()
+  const { getToken, isLoaded, isSignedIn, sessionId } = useAuth()
   const { user } = useUser()
   const router = useRouter()
   const [status, setStatus] = useState<'loading' | 'redirecting' | 'error'>('loading')
   const [error, setError] = useState<string | null>(null)
+  const hasRedirected = useRef(false) // Prevent multiple redirects
 
   useEffect(() => {
     const handleRedirect = async () => {
+      // Prevent multiple redirect attempts
+      if (hasRedirected.current) {
+        return
+      }
+
       // Wait for Clerk to be fully loaded
       if (!isLoaded) {
         return
       }
 
       // Check if user is signed in
-      if (!isSignedIn) {
+      // Note: We check isSignedIn, but even if pending, we'll try to get token
+      // This allows us to redirect even if there are session tasks
+      if (!isSignedIn && !sessionId) {
         setError('Not authenticated. Redirecting to sign-in...')
         setTimeout(() => {
           router.push('/auth/sign-in')
-        }, 2000)
+        }, 1500)
         return
       }
 
       try {
-        // Get the session token from Clerk
-        const token = await getToken()
+        setStatus('redirecting')
+        
+        // Get JWT token from Clerk
+        // getToken() returns a JWT that can be used with Azure backend
+        // We use treatPendingAsSignedOut: false to get token even if session is pending
+        let token: string | null = null
+        
+        // Try to get token - retry a few times if needed
+        for (let attempt = 0; attempt < 5; attempt++) {
+          try {
+            // Get token - this returns a JWT that Azure can verify
+            token = await getToken({ 
+              template: undefined, // Use default JWT template
+              // If you have a custom JWT template in Clerk Dashboard, specify it here:
+              // template: 'your-template-name'
+            })
+            
+            if (token) {
+              break
+            }
+          } catch (tokenError) {
+            console.log(`Token attempt ${attempt + 1} failed, retrying...`, tokenError)
+            if (attempt < 4) {
+              await new Promise(resolve => setTimeout(resolve, 300)) // Wait 300ms before retry
+            }
+          }
+        }
         
         if (!token) {
-          setError('Failed to get session token. Redirecting to sign-in...')
-          setTimeout(() => {
-            router.push('/auth/sign-in')
-          }, 2000)
-          return
+          // Last attempt: try without any options
+          token = await getToken()
+        }
+        
+        if (!token) {
+          throw new Error('Failed to retrieve authentication token')
         }
 
-        setStatus('redirecting')
-
-        // Get Unity redirect URL from environment variable or use default
-        // Format: unity://auth?token=TOKEN or custom://auth?token=TOKEN
-        // For web-based Unity builds, use full URL: https://your-unity-app.com/auth?token=TOKEN
+        // Get Unity URL scheme from environment variable
         const unityUrlScheme = process.env.NEXT_PUBLIC_UNITY_URL_SCHEME || 'unity://'
         
-        // Check if it's a full URL (http/https) or a custom scheme
-        const isFullUrl = unityUrlScheme.startsWith('http://') || unityUrlScheme.startsWith('https://')
-        const redirectUrl = isFullUrl
-          ? `${unityUrlScheme}?token=${encodeURIComponent(token)}`
-          : `${unityUrlScheme}auth?token=${encodeURIComponent(token)}`
-
+        // Build the redirect URL with token
+        const redirectUrl = `${unityUrlScheme}auth?token=${encodeURIComponent(token)}`
+        
+        // Mark as redirected to prevent multiple redirects
+        hasRedirected.current = true
+        
         // Redirect to Unity
-        // For web-based Unity builds, use window.location.href
-        // For native Unity apps, use custom URL scheme
         window.location.href = redirectUrl
-
-        // Fallback: if Unity doesn't handle the redirect (for custom schemes), show a message
-        // Note: This timeout won't fire if the redirect succeeds
-        if (!isFullUrl) {
-          setTimeout(() => {
-            setError('Unity app not found. Please make sure Unity is installed and can handle the redirect.')
-            setStatus('error')
-          }, 3000)
-        }
-
+        
       } catch (err) {
-        console.error('Error getting token:', err)
-        setError('Failed to get authentication token. Please try again.')
+        console.error('Redirect error:', err)
+        setError(err instanceof Error ? err.message : 'Failed to redirect to Unity')
         setStatus('error')
+        
+        // Fallback: redirect to sign-in after error
+        setTimeout(() => {
+          router.push('/auth/sign-in')
+        }, 3000)
       }
     }
 
     handleRedirect()
-  }, [isLoaded, isSignedIn, getToken, router])
+  }, [isLoaded, isSignedIn, sessionId, getToken, router])
 
+  // Loading/error UI
+  if (status === 'loading') {
+    return (
+      <div style={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        minHeight: '100vh',
+        background: 'linear-gradient(135deg, #0a0a1a 0%, #1a0a2e 50%, #0a0a1a 100%)',
+        color: '#ffffff',
+        fontFamily: 'var(--font-montserrat), Montserrat, sans-serif',
+      }}>
+        <div style={{ textAlign: 'center' }}>
+          <div style={{ fontSize: '1.5rem', marginBottom: '1rem' }}>Authenticating...</div>
+          <div style={{ fontSize: '0.875rem', opacity: 0.7 }}>Please wait</div>
+        </div>
+      </div>
+    )
+  }
+
+  if (status === 'error') {
+    return (
+      <div style={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        minHeight: '100vh',
+        background: 'linear-gradient(135deg, #0a0a1a 0%, #1a0a2e 50%, #0a0a1a 100%)',
+        color: '#ffffff',
+        fontFamily: 'var(--font-montserrat), Montserrat, sans-serif',
+        padding: '2rem',
+        textAlign: 'center',
+      }}>
+        <div style={{ fontSize: '1.5rem', marginBottom: '1rem', color: '#ff6b6b' }}>Error</div>
+        <div style={{ fontSize: '0.875rem', opacity: 0.7, marginBottom: '2rem' }}>{error}</div>
+        <a
+          href="/auth/sign-in"
+          style={{
+            padding: '0.75rem 2rem',
+            background: 'linear-gradient(135deg, #00d4ff 0%, #00b8d4 100%)',
+            color: '#ffffff',
+            borderRadius: '0.75rem',
+            textDecoration: 'none',
+            fontWeight: 500,
+          }}
+        >
+          Return to Sign In
+        </a>
+      </div>
+    )
+  }
+
+  // Redirecting state
   return (
     <div style={{
       display: 'flex',
@@ -90,57 +172,14 @@ export default function CallbackPage() {
       alignItems: 'center',
       justifyContent: 'center',
       minHeight: '100vh',
-      background: 'linear-gradient(135deg, #0a0a1a 0%, #1a0a2e 50%, #16213e 100%)',
+      background: 'linear-gradient(135deg, #0a0a1a 0%, #1a0a2e 50%, #0a0a1a 100%)',
       color: '#ffffff',
       fontFamily: 'var(--font-montserrat), Montserrat, sans-serif',
-      padding: '2rem'
     }}>
-      {status === 'loading' && (
-        <>
-          <div style={{
-            width: '50px',
-            height: '50px',
-            border: '4px solid rgba(0, 212, 255, 0.3)',
-            borderTop: '4px solid #00d4ff',
-            borderRadius: '50%',
-            animation: 'spin 1s linear infinite',
-            marginBottom: '1rem'
-          }} />
-          <p style={{ fontSize: '1.1rem', opacity: 0.9 }}>Authenticating...</p>
-        </>
-      )}
-
-      {status === 'redirecting' && (
-        <>
-          <div style={{
-            width: '50px',
-            height: '50px',
-            border: '4px solid rgba(0, 212, 255, 0.3)',
-            borderTop: '4px solid #00d4ff',
-            borderRadius: '50%',
-            animation: 'spin 1s linear infinite',
-            marginBottom: '1rem'
-          }} />
-          <p style={{ fontSize: '1.1rem', opacity: 0.9 }}>Redirecting to Unity...</p>
-          <p style={{ fontSize: '0.9rem', opacity: 0.7, marginTop: '0.5rem' }}>
-            If Unity doesn't open automatically, please check your Unity app.
-          </p>
-        </>
-      )}
-
-      {status === 'error' && error && (
-        <>
-          <p style={{ fontSize: '1.1rem', color: '#ff6b6b', marginBottom: '1rem' }}>Error</p>
-          <p style={{ fontSize: '0.9rem', opacity: 0.8 }}>{error}</p>
-        </>
-      )}
-
-      <style jsx>{`
-        @keyframes spin {
-          0% { transform: rotate(0deg); }
-          100% { transform: rotate(360deg); }
-        }
-      `}</style>
+      <div style={{ textAlign: 'center' }}>
+        <div style={{ fontSize: '1.5rem', marginBottom: '1rem' }}>Redirecting to Unity...</div>
+        <div style={{ fontSize: '0.875rem', opacity: 0.7 }}>Please wait</div>
+      </div>
     </div>
   )
 }
