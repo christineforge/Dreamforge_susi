@@ -1,7 +1,6 @@
 import type { Metadata } from 'next'
 import { ClerkProvider } from '@clerk/nextjs'
 import { Montserrat } from 'next/font/google'
-import './globals.css'
 
 const montserrat = Montserrat({
   subsets: ['latin'],
@@ -51,13 +50,17 @@ export default function RootLayout({
               backgroundColor: '#00e5ff',
             },
           },
-          // White glassmorphism card - handled by CSS
+          // Card styling - glassmorphism effect
           card: {
-            backgroundColor: 'transparent',
-            boxShadow: 'none',
-            border: 'none',
+            backgroundColor: 'rgba(255, 255, 255, 0.05)',
+            background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.02) 50%, rgba(255, 255, 255, 0.05) 100%)',
+            backdropFilter: 'blur(15px) saturate(180%)',
+            WebkitBackdropFilter: 'blur(15px) saturate(180%)',
+            borderRadius: '1.5rem',
+            border: '1px solid rgba(255, 255, 255, 0.1)',
+            boxShadow: '0 8px 32px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.15)',
           },
-          // Input styling - white glass handled by CSS
+          // Input styling - white glass
           formFieldInput: {
             borderRadius: '9999px', // Perfectly rounded
             backgroundColor: 'rgba(255, 255, 255, 0.2)',
@@ -116,7 +119,19 @@ export default function RootLayout({
       }}
     >
       <html lang="en">
-        <body className={montserrat.variable}>{children}</body>
+        <body 
+          className={montserrat.variable}
+          style={{
+            margin: 0,
+            padding: 0,
+            backgroundColor: '#0a0a1a',
+            color: '#ffffff',
+            fontFamily: 'var(--font-montserrat), Montserrat, sans-serif',
+            minHeight: '100vh',
+          }}
+        >
+          {children}
+        </body>
       </html>
     </ClerkProvider>
   )

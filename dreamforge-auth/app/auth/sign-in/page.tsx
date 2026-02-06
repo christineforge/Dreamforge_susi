@@ -2,7 +2,6 @@
 
 import { SignIn } from '@clerk/nextjs'
 import { useEffect } from 'react'
-import styles from '../page.module.css'
 
 /**
  * Sign-in page
@@ -107,14 +106,22 @@ export default function SignInPage() {
       // Create account link container
       const accountLinkContainer = document.createElement('div');
       accountLinkContainer.setAttribute('data-account-link-container', 'true');
-      accountLinkContainer.className = styles.accountLinkContainer;
+      accountLinkContainer.style.display = 'flex';
+      accountLinkContainer.style.alignItems = 'center';
+      accountLinkContainer.style.justifyContent = 'center';
+      accountLinkContainer.style.marginTop = '1rem';
       
       const accountLinkText = document.createElement('span');
-      accountLinkText.className = styles.accountLinkText;
+      accountLinkText.style.color = 'rgba(255, 255, 255, 0.7)';
+      accountLinkText.style.fontSize = '0.875rem';
+      accountLinkText.style.marginRight = '0.25rem';
       accountLinkText.textContent = "Don't have an account?";
       
       const accountLink = document.createElement('a');
-      accountLink.className = styles.accountLink;
+      accountLink.style.color = 'rgba(0, 212, 255, 0.8)';
+      accountLink.style.fontSize = '0.875rem';
+      accountLink.style.fontWeight = '500';
+      accountLink.style.textDecoration = 'none';
       accountLink.href = '/auth';
       accountLink.textContent = 'Sign up';
       
@@ -130,17 +137,28 @@ export default function SignInPage() {
       if (!document.querySelector('[data-custom-divider]')) {
         const divider = document.createElement('div');
         divider.setAttribute('data-custom-divider', 'true');
-        divider.className = styles.customDivider;
+        divider.style.display = 'flex';
+        divider.style.alignItems = 'center';
+        divider.style.justifyContent = 'center';
+        divider.style.width = '100%';
+        divider.style.margin = '1.5rem 0';
+        divider.style.gap = '1rem';
         
         const dividerLineLeft = document.createElement('div');
-        dividerLineLeft.className = styles.customDividerLine;
+        dividerLineLeft.style.flex = '1';
+        dividerLineLeft.style.height = '1px';
+        dividerLineLeft.style.background = 'rgba(255, 255, 255, 0.2)';
         
         const dividerText = document.createElement('span');
-        dividerText.className = styles.customDividerText;
+        dividerText.style.color = 'rgba(255, 255, 255, 0.7)';
+        dividerText.style.fontSize = '0.875rem';
+        dividerText.style.whiteSpace = 'nowrap';
         dividerText.textContent = 'or';
         
         const dividerLineRight = document.createElement('div');
-        dividerLineRight.className = styles.customDividerLine;
+        dividerLineRight.style.flex = '1';
+        dividerLineRight.style.height = '1px';
+        dividerLineRight.style.background = 'rgba(255, 255, 255, 0.2)';
         
         divider.appendChild(dividerLineLeft);
         divider.appendChild(dividerText);
@@ -222,15 +240,24 @@ export default function SignInPage() {
   }, []);
 
   return (
-    <div className={styles.authContainer}>
-      {/* Card wrapper - Clerk handles the white card styling */}
-      <div className={styles.cardWrapper}>
+    <div style={{
+      minHeight: '100vh',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      padding: '1rem',
+      background: 'url("/images/background.jpg") center center / cover no-repeat fixed, linear-gradient(135deg, #0a0a1a 0%, #1a0a2e 50%, #0a0a1a 100%)',
+      backgroundColor: '#0a0a1a',
+    }}>
+      <div style={{
+        width: '100%',
+        maxWidth: '380px',
+        position: 'relative',
+      }}>
         <SignIn 
           routing="path"
           path="/auth/sign-in"
           signUpUrl="/auth"
-          afterSignInUrl="/auth/callback"
-          redirectUrl="/auth/callback"
         />
       </div>
     </div>
