@@ -121,6 +121,22 @@ export default function RootLayout({
               backgroundColor: 'rgba(255, 255, 255, 0.1) !important',
             },
           },
+          // Hide Clerk's default divider
+          dividerLine: {
+            display: 'none !important',
+          },
+          dividerText: {
+            display: 'none !important',
+          },
+          divider: {
+            display: 'none !important',
+          },
+          separator: {
+            display: 'none !important',
+          },
+          separatorLine: {
+            display: 'none !important',
+          },
           // Also target the button element inside
           socialButtonsBlockButtonButton: {
             border: '1px solid rgba(255, 255, 255, 1) !important',

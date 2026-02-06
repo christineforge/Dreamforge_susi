@@ -148,14 +148,32 @@ export default function AuthPageClient() {
       setTimeout(styleSocialButtons, 100);
       setTimeout(styleSocialButtons, 500);
       
-      // Observer to style social buttons when they appear
+      // Observer to style social buttons when they appear and hide Clerk's divider
       let observer: MutationObserver | null = null;
       if (card) {
         observer = new MutationObserver(() => {
           styleSocialButtons();
+          // Hide Clerk's default divider
+          const clerkDividers = document.querySelectorAll('[class*="cl-divider"], [class*="cl-separator"]');
+          clerkDividers.forEach((divider) => {
+            const htmlDivider = divider as HTMLElement;
+            htmlDivider.style.display = 'none';
+          });
         });
         observer.observe(card, { childList: true, subtree: true });
       }
+
+      // Also hide dividers immediately
+      const hideDividers = () => {
+        const clerkDividers = document.querySelectorAll('[class*="cl-divider"], [class*="cl-separator"]');
+        clerkDividers.forEach((divider) => {
+          const htmlDivider = divider as HTMLElement;
+          htmlDivider.style.display = 'none';
+        });
+      };
+      hideDividers();
+      setTimeout(hideDividers, 100);
+      setTimeout(hideDividers, 500);
 
       return true;
     };
