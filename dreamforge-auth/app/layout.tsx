@@ -108,33 +108,6 @@ export default function RootLayout({
             textAlign: 'center',
             width: '100%',
           },
-          // Footer action container
-          footerAction: {
-            color: 'rgba(255, 255, 255, 0.7)', // Reduced contrast text
-            fontFamily: 'var(--font-montserrat), Montserrat, sans-serif',
-            fontSize: '0.875rem',
-            fontWeight: 400,
-            textAlign: 'center',
-          },
-          // Footer action link (Sign in / Sign up)
-          formFooterActionLink: {
-            color: 'rgba(0, 212, 255, 0.8)', // Teal with reduced opacity
-            fontFamily: 'var(--font-montserrat), Montserrat, sans-serif',
-            fontSize: '0.875rem',
-            fontWeight: 500,
-            textDecoration: 'none',
-            transition: 'color 0.2s ease',
-            '&:hover': {
-              color: 'rgba(0, 212, 255, 1)', // Full opacity on hover
-            },
-          },
-          // Footer text (for any additional footer text)
-          footerText: {
-            color: 'rgba(255, 255, 255, 0.5)', // Very subtle
-            fontFamily: 'var(--font-montserrat), Montserrat, sans-serif',
-            fontSize: '0.75rem',
-            opacity: 0.6,
-          },
           socialButtonsBlockButton: {
             borderColor: 'rgba(255, 255, 255, 1)',
             borderWidth: '1px',
