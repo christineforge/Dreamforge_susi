@@ -127,7 +127,7 @@ export default function AuthPageClient() {
       if (headerTitle && headerTitle.parentNode) {
         // Find the header container
         const headerContainer = headerTitle.closest('[class*="cl-header"]');
-        if (headerContainer && headerContainer.nextSibling) {
+        if (headerContainer && headerContainer.parentNode && headerContainer.nextSibling) {
           headerContainer.parentNode.insertBefore(accountLinkContainer, headerContainer.nextSibling);
         } else {
           headerTitle.after(accountLinkContainer);
