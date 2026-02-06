@@ -159,8 +159,7 @@ export default function AuthPageClient() {
         styleSocialButtons();
       });
 
-      // Observe the card for changes
-      const card = findCard();
+      // Observe the card for changes (reuse card variable from above)
       if (card) {
         observer.observe(card, { childList: true, subtree: true });
       }
