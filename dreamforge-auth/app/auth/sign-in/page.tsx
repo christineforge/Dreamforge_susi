@@ -110,32 +110,29 @@ export default function SignInPage() {
       accountLinkContainer.style.alignItems = 'center';
       accountLinkContainer.style.justifyContent = 'center';
       accountLinkContainer.style.marginTop = '1rem';
+      accountLinkContainer.style.marginBottom = '0';
       accountLinkContainer.style.width = '100%';
-      accountLinkContainer.style.textAlign = 'center';
+      accountLinkContainer.style.visibility = 'visible';
+      accountLinkContainer.style.opacity = '1';
       
-      const accountLinkText = document.createElement('span');
+      const accountLinkText = document.createElement('div');
       accountLinkText.style.color = 'rgba(255, 255, 255, 0.7)';
       accountLinkText.style.fontSize = '0.875rem';
-      accountLinkText.style.marginRight = '0.25rem';
-      accountLinkText.textContent = "Don't have an account?";
-      
-      const accountLink = document.createElement('a');
-      accountLink.style.color = 'rgba(0, 212, 255, 0.8)';
-      accountLink.style.fontSize = '0.875rem';
-      accountLink.style.fontWeight = '500';
-      accountLink.style.textDecoration = 'none';
-      accountLink.href = '/auth';
-      accountLink.textContent = 'Sign up';
+      accountLinkText.style.textAlign = 'center';
+      accountLinkText.style.lineHeight = '1.5';
+      accountLinkText.innerHTML = 'No account?<br><a href="/auth" style="color: rgba(0, 212, 255, 0.8); text-decoration: none; font-weight: 500;">Sign up</a>';
       
       accountLinkContainer.appendChild(accountLinkText);
-      accountLinkContainer.appendChild(accountLink);
       
-      // Insert at the bottom of the card
-      const card = findCard();
-      if (card) {
-        accountLinkContainer.style.marginTop = '1.5rem';
-        accountLinkContainer.style.marginBottom = '0';
-        card.appendChild(accountLinkContainer);
+      // Insert after header title - make sure it's visible and at the top
+      if (headerTitle && headerTitle.parentNode) {
+        // Find the header container
+        const headerContainer = headerTitle.closest('[class*="cl-header"]');
+        if (headerContainer && headerContainer.parentNode && headerContainer.nextSibling) {
+          headerContainer.parentNode.insertBefore(accountLinkContainer, headerContainer.nextSibling);
+        } else {
+          headerTitle.after(accountLinkContainer);
+        }
       }
 
       // Style social buttons with white border and 6% transparent background
