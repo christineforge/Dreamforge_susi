@@ -1,0 +1,4 @@
+# Place your logo image here
+# Recommended: logo.png or logo.svg
+# Update the path in app/auth/[[...rest]]/page.tsx
+
