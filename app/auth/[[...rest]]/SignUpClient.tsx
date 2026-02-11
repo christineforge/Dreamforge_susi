@@ -1,13 +1,13 @@
 'use client'
 
-import { useEffect, useState, useRef } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useSearchParams } from 'next/navigation'
 import Image from 'next/image'
 
 const CLERK_DOMAIN = process.env.NEXT_PUBLIC_CLERK_DOMAIN || 'clerk.playdreamforge.com'
 const CLERK_CLIENT_ID = process.env.NEXT_PUBLIC_CLERK_CLIENT_ID || ''
 
-export default function SignInPage() {
+export default function SignUpClient() {
   const searchParams = useSearchParams()
   const [isLoading, setIsLoading] = useState(false)
   const cardRef = useRef<HTMLDivElement>(null)
@@ -137,14 +137,14 @@ export default function SignInPage() {
                 color: '#ffffff',
                 margin: 0,
               }}>
-                Sign in
+                Create account
               </h1>
               <p style={{
                 fontSize: '0.875rem',
                 color: 'rgba(255, 255, 255, 0.7)',
                 marginTop: '0.5rem',
               }}>
-                No account? <a href={`/auth?${searchParams.toString()}`} style={{ color: '#9d4edd', textDecoration: 'none', fontWeight: 500 }}>Sign up</a>
+                Have an account? <a href={`/auth/sign-in?${searchParams.toString()}`} style={{ color: '#9d4edd', textDecoration: 'none', fontWeight: 500 }}>Sign in</a>
               </p>
             </div>
 
@@ -157,7 +157,7 @@ export default function SignInPage() {
                 textAlign: 'center',
               }}>
                 <p style={{ color: '#ff6b6b', margin: 0, fontSize: '0.875rem' }}>
-                  Missing OAuth parameters. Please launch sign-in from the game.
+                  Missing OAuth parameters. Please launch sign-up from the game.
                 </p>
               </div>
             ) : (
@@ -294,7 +294,7 @@ export default function SignInPage() {
                 color: 'rgba(255, 255, 255, 0.7)',
                 fontSize: '0.875rem',
               }}>
-                Redirecting to sign in...
+                Redirecting to create account...
               </div>
             )}
           </div>
