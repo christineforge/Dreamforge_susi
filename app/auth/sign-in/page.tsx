@@ -284,8 +284,7 @@ export default function SignInPage() {
           routing="path"
           path="/auth/sign-in"
           signUpUrl="/auth"
-          afterSignInUrl="/auth/callback"
-          redirectUrl="/auth/callback"
+          forceRedirectUrl="/auth/callback"
         />
       </div>
     </div>
