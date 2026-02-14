@@ -1,6 +1,6 @@
 'use client'
 
-import { SignIn } from '@clerk/nextjs'
+import { SignIn, useAuth } from '@clerk/nextjs'
 import { useEffect } from 'react'
 
 /**
@@ -9,6 +9,11 @@ import { useEffect } from 'react'
  * Designed for local design and UX iteration
  */
 export default function SignInPage() {
+  const { isSignedIn, isLoaded } = useAuth()
+
+  if (!isLoaded) return null
+  if (isSignedIn) return null
+
   useEffect(() => {
     // Wait for card to be rendered with retry mechanism
     const findCard = (): HTMLElement | null => {
