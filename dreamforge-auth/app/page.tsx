@@ -1,29 +1,22 @@
 'use client'
 
+import { useAuth } from '@clerk/nextjs'
 import { useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 
-/**
- * Root page - redirects to auth page
- */
 export default function Home() {
+  const { isLoaded, isSignedIn } = useAuth()
   const router = useRouter()
-  
-  useEffect(() => {
-    router.push('/auth')
-  }, [router])
-  
-  return (
-    <div style={{
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      minHeight: '100vh',
-      background: 'linear-gradient(135deg, #0a0a1a 0%, #1a0a2e 50%, #0a0a1a 100%)',
-      color: '#ffffff',
-    }}>
-      <div>Redirecting...</div>
-    </div>
-  )
-}
 
+  useEffect(() => {
+    if (!isLoaded) return
+
+    if (!isSignedIn) {
+      router.replace('/auth/sign-in')
+    } else {
+      router.replace('/auth/callback')
+    }
+  }, [isLoaded, isSignedIn, router])
+
+  return null
+}
