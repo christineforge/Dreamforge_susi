@@ -283,8 +283,6 @@ export default function AuthPageClient() {
           routing="path"
           path="/auth"
           signInUrl="/auth/sign-in"
-          afterSignUpUrl="/auth/callback"
-          redirectUrl="/auth/callback"
         />
       </div>
     </div>
