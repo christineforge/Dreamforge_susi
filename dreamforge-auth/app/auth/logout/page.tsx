@@ -5,7 +5,7 @@ import { useEffect } from 'react'
 
 /**
  * Logout page - Clears Clerk session and redirects to sign-in
- * Uses signOut with redirectUrl to ensure proper session clearing
+ * Uses signOut() and then hard redirect to ensure proper session clearing
  * and prevent auto-signin after logout
  */
 export default function LogoutPage() {
@@ -13,9 +13,11 @@ export default function LogoutPage() {
 
   useEffect(() => {
     const logout = async () => {
-      // Use redirectUrl option to ensure proper session clearing
-      // This prevents Clerk from reusing existing sessions after logout
-      await signOut({ redirectUrl: '/auth/sign-in' })
+      // Sign out and wait for session to be cleared
+      await signOut()
+      // Use window.location.href for hard redirect to ensure
+      // complete session clearing and prevent session reuse
+      window.location.href = '/auth/sign-in'
     }
     logout()
   }, [signOut])
