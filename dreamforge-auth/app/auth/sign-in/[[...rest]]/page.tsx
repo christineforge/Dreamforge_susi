@@ -2,7 +2,6 @@
 
 import { SignIn, useAuth } from '@clerk/nextjs'
 import { useEffect } from 'react'
-import { useSearchParams } from 'next/navigation'
 
 /**
  * Sign-in page - Catch-all route for Clerk SignIn
@@ -11,15 +10,8 @@ import { useSearchParams } from 'next/navigation'
  */
 export default function SignInPage() {
   const { isSignedIn, isLoaded } = useAuth()
-  const searchParams = useSearchParams()
-
-  const redirectUrl = searchParams.get('redirect_url')
-  const isOAuthFlow = redirectUrl?.includes('oauth/authorize')
 
   if (!isLoaded) return null
-  
-  // If OAuth continuation, do not render SignIn UI - let Clerk continue OAuth automatically
-  if (isOAuthFlow) return null
   
   // If already signed in, prevent flicker
   if (isSignedIn) return null
