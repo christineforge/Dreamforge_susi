@@ -4,11 +4,17 @@ import { NextResponse } from 'next/server'
 export default authMiddleware({
   publicRoutes: ['(.*)'],
   afterAuth(auth, req) {
-    //When user is already signed in and arrives at /auth with a redirect_url
-    //(from an OAuth flow), skip the sign-in form and redirect immediately.
-    //This prevents the double sign-in caused by prompt=login in Unity's OAuth request.
     const redirectUrl = req.nextUrl.searchParams.get('redirect_url')
-    if (auth.userId && redirectUrl && req.nextUrl.pathname.startsWith('/auth')) {
+    if (!redirectUrl || !req.nextUrl.pathname.startsWith('/auth')) return
+
+    //Server-side: if we can confirm the user is signed in, redirect immediately
+    if (auth.userId) {
+      return NextResponse.redirect(redirectUrl)
+    }
+
+    //Fallback: check for Clerk session cookie directly
+    const hasSession = req.cookies.has('__session') || req.cookies.has('__client_uat')
+    if (hasSession) {
       return NextResponse.redirect(redirectUrl)
     }
   }

@@ -1,8 +1,24 @@
 'use client'
 import Image from 'next/image'
-import { SignIn } from '@clerk/nextjs'
+import { SignIn, useAuth } from '@clerk/nextjs'
+import { useSearchParams } from 'next/navigation'
+import { useEffect, useState } from 'react'
 
 export default function AuthClientPage() {
+  const { isLoaded, isSignedIn } = useAuth()
+  const searchParams = useSearchParams()
+  const redirectUrl = searchParams.get('redirect_url')
+  const [redirecting, setRedirecting] = useState(false)
+
+  //Client-side fallback: if middleware didn't catch the signed-in + redirect_url case
+  useEffect(() => {
+    if (!isLoaded || !isSignedIn || !redirectUrl || redirecting) return
+    setRedirecting(true)
+    window.location.href = redirectUrl
+  }, [isLoaded, isSignedIn, redirectUrl, redirecting])
+
+  if (redirecting || (isLoaded && isSignedIn && redirectUrl)) return null
+
   return (
     <>
       <main
