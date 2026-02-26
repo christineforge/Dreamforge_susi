@@ -27,6 +27,9 @@ export default function RootLayout({
     <ClerkProvider
       publishableKey={process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY || ''}
       appearance={{
+        layout: {
+          socialButtonsVariant: 'iconButton',
+        },
         // Dark theme base for white text, but with transparent card
         // baseTheme removed - using custom variables instead
         variables: {
@@ -76,11 +79,11 @@ export default function RootLayout({
           footerPages: {
             display: 'none',
           },
-          // Hide the entire formFooter (black rectangle)
+          // Hide built-in action, custom row is rendered in auth page
           formFooter: {
             display: 'none',
           },
-          // Hide footer action (bottom links)
+          // Hide built-in action, custom row is rendered in auth page
           footerAction: {
             display: 'none',
           },
@@ -107,40 +110,87 @@ export default function RootLayout({
           headerTitle: {
             textAlign: 'center',
             width: '100%',
+            marginBottom: '2.9rem',
           },
-          socialButtonsBlockButton: {
-            border: '1px solid rgba(255, 255, 255, 1) !important',
-            borderColor: 'rgba(255, 255, 255, 1) !important',
-            borderWidth: '1px !important',
-            borderStyle: 'solid !important',
-            backgroundColor: 'rgba(255, 255, 255, 0.06) !important',
-            borderRadius: '0.5rem !important',
-            padding: '0.75rem 1rem !important',
-            '&:hover': {
-              borderColor: 'rgba(255, 255, 255, 1) !important',
-              backgroundColor: 'rgba(255, 255, 255, 0.1) !important',
-            },
+          main: {
+            display: 'flex',
+            flexDirection: 'column',
           },
-          // Hide Clerk's default divider
-          dividerLine: {
-            display: 'none !important',
-          },
-          dividerText: {
-            display: 'none !important',
+          form: {
+            order: 4,
           },
           divider: {
-            display: 'none !important',
+            order: 2,
           },
-          separator: {
-            display: 'none !important',
+          socialButtonsBlockButton: {
+            border: '0.5px solid rgba(255, 255, 255, 0.75)',
+            borderColor: 'rgba(255, 255, 255, 0.95)',
+            borderWidth: '0.5px',
+            borderStyle: 'solid',
+            backgroundColor: 'rgba(255, 255, 255, 0.1)',
+            borderRadius: '0.65rem',
+            width: '3.35rem',
+            minWidth: '3.35rem',
+            maxWidth: '3.35rem',
+            height: '3.35rem',
+            padding: 0,
+            display: 'inline-flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            flex: '0 0 auto',
+            backdropFilter: 'blur(10px)',
+            WebkitBackdropFilter: 'blur(10px)',
+            '&:hover': {
+              borderColor: 'rgba(255, 255, 255, 1)',
+              backgroundColor: 'rgba(255, 255, 255, 0.14)',
+            },
           },
-          separatorLine: {
-            display: 'none !important',
+          socialButtonsProviderIcon: {
+            margin: 0,
+            width: '1.35rem',
+            height: '1.35rem',
+          },
+          socialButtonsBlockButtonText: {
+            display: 'none',
+          },
+          socialButtonsBlockButtonArrow: {
+            display: 'none',
+          },
+          socialButtonsBlock: {
+            order: 3,
+            display: 'flex',
+            flexDirection: 'row',
+            justifyContent: 'center',
+            alignItems: 'center',
+            gap: '0.75rem',
+            flexWrap: 'nowrap',
+            width: '100%',
+            overflowX: 'auto',
+          },
+          dividerRow: {
+            order: 2,
+            display: 'flex',
+            alignItems: 'center',
+            width: '100%',
+            margin: '0.1rem 0 0.7rem 0',
+          },
+          dividerLine: {
+            display: 'block',
+            flex: 1,
+            height: '1px',
+            background: 'rgba(255, 255, 255, 0.35)',
+          },
+          dividerText: {
+            display: 'block',
+            margin: '0 0.75rem',
+            color: 'rgba(255, 255, 255, 0.9)',
+            fontSize: '0.85rem',
+            textTransform: 'lowercase',
           },
           // Also target the button element inside
           socialButtonsBlockButtonButton: {
-            border: '1px solid rgba(255, 255, 255, 1) !important',
-            backgroundColor: 'rgba(255, 255, 255, 0.06) !important',
+            border: '1px solid rgba(255, 255, 255, 0.95)',
+            backgroundColor: 'rgba(255, 255, 255, 0.1)',
           },
         },
       }}
