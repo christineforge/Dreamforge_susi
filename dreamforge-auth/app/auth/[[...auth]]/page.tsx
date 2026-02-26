@@ -1,9 +1,5 @@
-import dynamic from 'next/dynamic'
-
-const AuthClientPage = dynamic(() => import('./AuthClientPage'), {
-  ssr: false,
-})
+import { SignIn } from '@clerk/nextjs'
 
 export default function Page() {
-  return <AuthClientPage />
+  return <SignIn />
 }
