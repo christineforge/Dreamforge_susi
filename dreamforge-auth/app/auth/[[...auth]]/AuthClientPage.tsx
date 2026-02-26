@@ -4,18 +4,31 @@ import { SignIn, useAuth } from '@clerk/nextjs'
 import { useSearchParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
 
+const OAUTH_REDIRECT_KEY = 'df_oauth_redirect_url'
+
 export default function AuthClientPage() {
   const { isLoaded, isSignedIn } = useAuth()
   const searchParams = useSearchParams()
   const redirectUrl = searchParams.get('redirect_url')
   const [redirecting, setRedirecting] = useState(false)
 
-  //When already signed in with a pending OAuth redirect, go there immediately
+  //Persist the OAuth redirect_url in sessionStorage so it survives social login redirects
   useEffect(() => {
-    if (!isLoaded || !isSignedIn || !redirectUrl || redirecting) return
-    setRedirecting(true)
-    window.location.href = redirectUrl
-  }, [isLoaded, isSignedIn, redirectUrl, redirecting])
+    if (redirectUrl) {
+      sessionStorage.setItem(OAUTH_REDIRECT_KEY, redirectUrl)
+    }
+  }, [redirectUrl])
+
+  //After sign-in completes (any method), retrieve the stored redirect and follow it
+  useEffect(() => {
+    if (!isLoaded || !isSignedIn || redirecting) return
+    const stored = sessionStorage.getItem(OAUTH_REDIRECT_KEY)
+    if (stored) {
+      sessionStorage.removeItem(OAUTH_REDIRECT_KEY)
+      setRedirecting(true)
+      window.location.href = stored
+    }
+  }, [isLoaded, isSignedIn, redirecting])
 
   if (redirecting) return null
 
