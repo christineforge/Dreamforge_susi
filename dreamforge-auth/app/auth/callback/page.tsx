@@ -8,23 +8,22 @@ export default function CallbackPage() {
   useEffect(() => {
     const handleRedirect = async () => {
       if (!isLoaded) return
+
       if (!isSignedIn) {
-        window.location.href = '/auth/sign-in'
+        window.location.href = '/auth'
         return
       }
 
       const token = await getToken()
       if (!token) {
-        window.location.href = '/auth/sign-in'
+        window.location.href = '/auth'
         return
       }
 
       const unityUrlScheme =
         process.env.NEXT_PUBLIC_UNITY_URL_SCHEME || 'unity://'
 
-      window.location.href = `${unityUrlScheme}auth?token=${encodeURIComponent(
-        token
-      )}`
+      window.location.href = `${unityUrlScheme}auth?token=${encodeURIComponent(token)}`
     }
 
     handleRedirect()

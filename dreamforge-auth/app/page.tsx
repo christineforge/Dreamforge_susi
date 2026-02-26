@@ -12,7 +12,7 @@ export default function Home() {
     if (!isLoaded) return
 
     if (!isSignedIn) {
-      router.replace('/auth/sign-in')
+      router.replace('/auth')
     } else {
       router.replace('/auth/callback')
     }
