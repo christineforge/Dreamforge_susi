@@ -1,26 +1,8 @@
 'use client'
 import Image from 'next/image'
-import { SignIn, useAuth } from '@clerk/nextjs'
-import { useSearchParams } from 'next/navigation'
-import { useEffect } from 'react'
+import { SignIn } from '@clerk/nextjs'
 
 export default function AuthClientPage() {
-  const { isLoaded, isSignedIn } = useAuth()
-  const searchParams = useSearchParams()
-  const redirectUrl = searchParams.get('redirect_url')
-
-  //When the user is already signed in and there's a redirect_url from an OAuth flow,
-  //skip the sign-in form and follow the redirect immediately. This prevents the
-  //double sign-in caused by prompt=login in Unity's OAuth request.
-  useEffect(() => {
-    if (!isLoaded) return
-    if (isSignedIn && redirectUrl) {
-      window.location.href = redirectUrl
-    }
-  }, [isLoaded, isSignedIn, redirectUrl])
-
-  if (isSignedIn && redirectUrl) return null
-
   return (
     <>
       <main
