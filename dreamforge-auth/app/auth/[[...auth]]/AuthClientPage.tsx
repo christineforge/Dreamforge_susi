@@ -7,9 +7,7 @@ export default function AuthClientPage() {
   const params = useParams<{ auth?: string[] }>()
   const searchParams = useSearchParams()
   const authSegments = params?.auth ?? []
-  const isSignInPath =
-    (Array.isArray(authSegments) && authSegments[0] === 'sign-in') ||
-    authSegments === 'sign-in'
+  const isSignInPath = authSegments[0] === 'sign-in'
   const isSignInMode = searchParams.get('mode') === 'sign-in'
   const isSignInFlow = isSignInPath || isSignInMode
 
@@ -88,11 +86,7 @@ export default function AuthClientPage() {
                 {isSignInFlow ? 'Sign up' : 'Sign in'}
               </button>
             </div>
-            {isSignInFlow ? (
-              <SignIn socialButtonsPlacement="bottom" />
-            ) : (
-              <SignUp socialButtonsPlacement="bottom" />
-            )}
+            {isSignInFlow ? <SignIn /> : <SignUp />}
           </div>
         </section>
       </main>
