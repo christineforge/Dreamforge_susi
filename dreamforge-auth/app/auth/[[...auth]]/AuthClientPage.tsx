@@ -10,14 +10,14 @@ export default function AuthClientPage() {
   const redirectUrl = searchParams.get('redirect_url')
   const [redirecting, setRedirecting] = useState(false)
 
-  //Client-side fallback: if middleware didn't catch the signed-in + redirect_url case
+  //When already signed in with a pending OAuth redirect, go there immediately
   useEffect(() => {
     if (!isLoaded || !isSignedIn || !redirectUrl || redirecting) return
     setRedirecting(true)
     window.location.href = redirectUrl
   }, [isLoaded, isSignedIn, redirectUrl, redirecting])
 
-  if (redirecting || (isLoaded && isSignedIn && redirectUrl)) return null
+  if (redirecting) return null
 
   return (
     <>
@@ -56,7 +56,7 @@ export default function AuthClientPage() {
             }}
           />
           <div style={{ width: '100%' }}>
-            <SignIn />
+            <SignIn afterSignInUrl={redirectUrl || undefined} />
           </div>
         </section>
       </main>
