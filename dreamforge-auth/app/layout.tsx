@@ -79,13 +79,13 @@ export default function RootLayout({
           footerPages: {
             display: 'none',
           },
-          // Hide built-in action, custom row is rendered in auth page
           formFooter: {
-            display: 'none',
+            display: 'flex',
+            justifyContent: 'center',
           },
-          // Hide built-in action, custom row is rendered in auth page
           footerAction: {
-            display: 'none',
+            display: 'flex',
+            justifyContent: 'center',
           },
           // Hide header subtitle
           headerSubtitle: {
