@@ -1,37 +1,8 @@
 'use client'
 import Image from 'next/image'
-import { SignIn, useAuth } from '@clerk/nextjs'
-import { useSearchParams } from 'next/navigation'
-import { useEffect, useState } from 'react'
-
-const OAUTH_REDIRECT_KEY = 'df_oauth_redirect_url'
+import { SignIn } from '@clerk/nextjs'
 
 export default function AuthClientPage() {
-  const { isLoaded, isSignedIn } = useAuth()
-  const searchParams = useSearchParams()
-  const redirectUrl = searchParams.get('redirect_url')
-  const [redirecting, setRedirecting] = useState(false)
-
-  //Persist the OAuth redirect_url in sessionStorage so it survives social login redirects
-  useEffect(() => {
-    if (redirectUrl) {
-      sessionStorage.setItem(OAUTH_REDIRECT_KEY, redirectUrl)
-    }
-  }, [redirectUrl])
-
-  //After sign-in completes (any method), retrieve the stored redirect and follow it
-  useEffect(() => {
-    if (!isLoaded || !isSignedIn || redirecting) return
-    const stored = sessionStorage.getItem(OAUTH_REDIRECT_KEY)
-    if (stored) {
-      sessionStorage.removeItem(OAUTH_REDIRECT_KEY)
-      setRedirecting(true)
-      window.location.href = stored
-    }
-  }, [isLoaded, isSignedIn, redirecting])
-
-  if (redirecting) return null
-
   return (
     <>
       <main
@@ -69,7 +40,7 @@ export default function AuthClientPage() {
             }}
           />
           <div style={{ width: '100%' }}>
-            <SignIn afterSignInUrl={redirectUrl || undefined} />
+            <SignIn />
           </div>
         </section>
       </main>

@@ -2,8 +2,6 @@
 import { useAuth } from '@clerk/nextjs'
 import { useEffect } from 'react'
 
-const OAUTH_REDIRECT_KEY = 'df_oauth_redirect_url'
-
 export default function CallbackPage() {
   const { isLoaded, isSignedIn, getToken } = useAuth()
 
@@ -13,14 +11,6 @@ export default function CallbackPage() {
 
       if (!isSignedIn) {
         window.location.href = '/auth'
-        return
-      }
-
-      //Check if there's a pending OAuth redirect (stored before social login)
-      const oauthRedirect = sessionStorage.getItem(OAUTH_REDIRECT_KEY)
-      if (oauthRedirect) {
-        sessionStorage.removeItem(OAUTH_REDIRECT_KEY)
-        window.location.href = oauthRedirect
         return
       }
 
