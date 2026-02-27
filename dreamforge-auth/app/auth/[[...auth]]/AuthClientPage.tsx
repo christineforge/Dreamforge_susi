@@ -1,8 +1,16 @@
 'use client'
 import Image from 'next/image'
-import { SignIn } from '@clerk/nextjs'
+import { SignIn, SignUp } from '@clerk/nextjs'
+import { useParams, useSearchParams } from 'next/navigation'
 
 export default function AuthClientPage() {
+  const params = useParams<{ auth?: string[] }>()
+  const searchParams = useSearchParams()
+  const authSegments = params?.auth ?? []
+  const isSignInPath = authSegments[0] === 'sign-in'
+  const isSignInMode = searchParams.get('mode') === 'sign-in'
+  const isSignInFlow = isSignInPath || isSignInMode
+
   return (
     <>
       <main
@@ -39,8 +47,46 @@ export default function AuthClientPage() {
               marginRight: 'auto',
             }}
           />
-          <div style={{ width: '100%' }}>
-            <SignIn />
+          <div style={{ width: '100%', position: 'relative' }}>
+            <div
+              style={{
+                position: 'absolute',
+                top: '5.6rem',
+                left: '50%',
+                transform: 'translateX(-50%)',
+                zIndex: 3,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                whiteSpace: 'nowrap',
+                gap: '0.75rem',
+                color: 'rgba(255, 255, 255, 0.85)',
+              }}
+            >
+              <span>{isSignInFlow ? "Don't have an account?" : 'Have an account?'}</span>
+              <button
+                type="button"
+                className="signin-pill"
+                onClick={() => {
+                  window.location.href = isSignInFlow ? '/auth' : '/auth?mode=sign-in'
+                }}
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  border: '1px solid rgba(255, 255, 255, 0.5)',
+                  borderRadius: '9999px',
+                  background: 'rgba(255, 255, 255, 0.08)',
+                  color: '#ffffff',
+                  textDecoration: 'none',
+                  padding: '0.45rem 0.9rem',
+                  cursor: 'pointer',
+                }}
+              >
+                {isSignInFlow ? 'Sign up' : 'Sign in'}
+              </button>
+            </div>
+            {isSignInFlow ? <SignIn /> : <SignUp />}
           </div>
         </section>
       </main>
@@ -211,13 +257,27 @@ export default function AuthClientPage() {
           box-shadow: 0 0 0 2px rgba(0, 212, 255, 0.35), 0 0 14px rgba(0, 212, 255, 0.3) !important;
         }
 
-        .cl-footerAction {
-          display: flex !important;
-          justify-content: center !important;
+        .signin-pill {
+          font-family: var(--font-montserrat), Montserrat, sans-serif !important;
+          transition:
+            background 0.2s ease,
+            box-shadow 0.2s ease,
+            border-color 0.2s ease,
+            transform 0.15s ease !important;
         }
 
-        .cl-footerActionLink {
-          font-family: var(--font-montserrat), Montserrat, sans-serif !important;
+        .signin-pill:hover,
+        .signin-pill:focus-visible {
+          background: linear-gradient(135deg, #7a3cff 0%, #b24dff 100%) !important;
+          border-color: rgba(208, 160, 255, 0.8) !important;
+          box-shadow: 0 0 0 1px rgba(168, 111, 255, 0.45), 0 0 16px rgba(140, 72, 255, 0.4) !important;
+          outline: none !important;
+        }
+
+        .signin-pill:active {
+          background: linear-gradient(135deg, #6a2feb 0%, #9f3ff1 100%) !important;
+          transform: translateY(1px) scale(0.99) !important;
+          box-shadow: 0 0 0 1px rgba(156, 96, 255, 0.5), 0 0 12px rgba(124, 60, 240, 0.35) !important;
         }
 
         @media (max-width: 768px) {
