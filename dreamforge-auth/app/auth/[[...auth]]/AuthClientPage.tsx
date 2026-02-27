@@ -68,7 +68,13 @@ export default function AuthClientPage() {
                 type="button"
                 className="signin-pill"
                 onClick={() => {
-                  window.location.href = isSignInFlow ? '/auth' : '/auth?mode=sign-in'
+                  const currentParams = new URLSearchParams(window.location.search)
+                  const redirectUrl = currentParams.get('redirect_url')
+                  const target = isSignInFlow ? '/auth' : '/auth?mode=sign-in'
+                  const separator = target.includes('?') ? '&' : '?'
+                  window.location.href = redirectUrl
+                    ? `${target}${separator}redirect_url=${encodeURIComponent(redirectUrl)}`
+                    : target
                 }}
                 style={{
                   display: 'inline-flex',
