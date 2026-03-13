@@ -147,6 +147,13 @@ export default function AuthClientPage() {
           transform: none !important;
         }
 
+        .auth-card-area .cl-cardBox {
+          width: 100% !important;
+          max-width: 100% !important;
+          background: transparent !important;
+          box-shadow: none !important;
+        }
+
         .cl-rootBox,
         .cl-cardBox,
         .cl-card,

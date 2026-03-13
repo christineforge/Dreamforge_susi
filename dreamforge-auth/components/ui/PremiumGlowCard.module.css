@@ -3,6 +3,7 @@
   overflow: hidden;
   border-radius: 1.25rem;
   isolation: isolate;
+  contain: layout paint;
 }
 
 .glowLayer {
@@ -10,7 +11,7 @@
   inset: 0;
   pointer-events: none;
   z-index: 0;
-  filter: blur(48px);
+  filter: blur(32px);
   transition: opacity 0.35s ease;
 }
 
@@ -24,8 +25,8 @@
 }
 
 .wrapper:hover .innerHighlight {
-  border-color: rgba(168, 85, 247, 0.15);
-  box-shadow: inset 0 0 24px rgba(168, 85, 247, 0.04);
+  border-color: rgba(168, 85, 247, 0.12);
+  box-shadow: inset 0 0 16px rgba(168, 85, 247, 0.02);
 }
 
 .content {
