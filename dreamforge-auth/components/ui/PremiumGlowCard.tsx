@@ -59,10 +59,10 @@ export default function PremiumGlowCard({
 
   const { x, y } = smoothPos.current
   const glowStyle = {
-    opacity: hovered ? 0.9 : 0,
+    opacity: hovered ? 1 : 0,
     background: `
-      radial-gradient(100px circle at ${x}px ${y}px, rgba(168,85,247,0.2), rgba(124,58,237,0.08) 40%, transparent 70%),
-      radial-gradient(80px circle at ${x}px ${y}px, rgba(96,165,250,0.08), transparent 60%)
+      radial-gradient(circle at ${x}px ${y}px, rgba(168,85,247,0.24), rgba(124,58,237,0.12) 22%, rgba(88,28,135,0.08) 38%, transparent 65%),
+      radial-gradient(circle at ${x}px ${y}px, rgba(96,165,250,0.10), transparent 55%)
     `,
   }
 
@@ -78,7 +78,6 @@ export default function PremiumGlowCard({
       onMouseLeave={() => setHovered(false)}
     >
       <div className={styles.glowLayer} style={glowStyle} aria-hidden="true" />
-      <div className={styles.innerHighlight} aria-hidden="true" />
       <div className={styles.content}>{children}</div>
     </div>
   )
