@@ -1,33 +1,23 @@
 'use client'
+
 import { useAuth } from '@clerk/nextjs'
 import { useEffect } from 'react'
 
 export default function CallbackPage() {
-  const { isLoaded, isSignedIn, getToken } = useAuth()
+  const { isLoaded, isSignedIn } = useAuth()
 
   useEffect(() => {
-    const handleRedirect = async () => {
-      if (!isLoaded) return
+    if (!isLoaded) return
 
-      if (!isSignedIn) {
-        window.location.href = '/auth'
-        return
-      }
-
-      const token = await getToken()
-      if (!token) {
-        window.location.href = '/auth'
-        return
-      }
-
-      const unityUrlScheme =
-        process.env.NEXT_PUBLIC_UNITY_URL_SCHEME || 'unity://'
-
-      window.location.href = `${unityUrlScheme}auth?token=${encodeURIComponent(token)}`
+    // If user somehow lands here without a session,
+    // send them back to the auth page.
+    if (!isSignedIn) {
+      window.location.href = '/auth'
     }
 
-    handleRedirect()
-  }, [isLoaded, isSignedIn, getToken])
+    // Otherwise do nothing.
+    // Clerk OAuth will redirect back to Unity automatically.
+  }, [isLoaded, isSignedIn])
 
   return null
 }
