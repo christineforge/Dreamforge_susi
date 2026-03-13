@@ -1,0 +1,115 @@
+.container {
+  position: absolute;
+  inset: -60px;
+  pointer-events: none;
+  z-index: 2;
+  overflow: visible;
+  filter: none;
+}
+
+.particle {
+  position: absolute;
+  border-radius: 50%;
+  box-shadow:
+    0 0 8px rgba(168, 85, 247, 0.95),
+    0 0 14px rgba(168, 85, 247, 0.6);
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  will-change: transform;
+}
+
+.particleDrift1 {
+  animation-name: particleDrift1;
+}
+
+.particleDrift2 {
+  animation-name: particleDrift2;
+}
+
+.particleDrift3 {
+  animation-name: particleDrift3;
+}
+
+.particleDrift4 {
+  animation-name: particleDrift4;
+}
+
+@keyframes particleDrift1 {
+  0% {
+    transform: translate(0, 0);
+    opacity: 0;
+  }
+  15% {
+    opacity: 1;
+  }
+  50% {
+    transform: translate(20px, -25px);
+  }
+  85% {
+    opacity: 0.85;
+  }
+  100% {
+    transform: translate(40px, -50px);
+    opacity: 0;
+  }
+}
+
+@keyframes particleDrift2 {
+  0% {
+    transform: translate(0, 0);
+    opacity: 0;
+  }
+  15% {
+    opacity: 1;
+  }
+  50% {
+    transform: translate(-18px, -20px);
+  }
+  85% {
+    opacity: 0.85;
+  }
+  100% {
+    transform: translate(-35px, -45px);
+    opacity: 0;
+  }
+}
+
+@keyframes particleDrift3 {
+  0% {
+    transform: translate(0, 0);
+    opacity: 0;
+  }
+  15% {
+    opacity: 1;
+  }
+  50% {
+    transform: translate(25px, 15px);
+  }
+  85% {
+    opacity: 0.85;
+  }
+  100% {
+    transform: translate(50px, 30px);
+    opacity: 0;
+  }
+}
+
+@keyframes particleDrift4 {
+  0% {
+    transform: translate(0, 0);
+    opacity: 0;
+  }
+  15% {
+    opacity: 1;
+  }
+  50% {
+    transform: translate(-22px, 18px);
+  }
+  85% {
+    opacity: 0.85;
+  }
+  100% {
+    transform: translate(-45px, 35px);
+    opacity: 0;
+  }
+}

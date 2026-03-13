@@ -1,9 +1,8 @@
 'use client'
 
-import { useState, useRef, useEffect, useMemo } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import styles from './PremiumGlowCard.module.css'
 
-const PARTICLE_COUNT = 6
 const SMOOTH_FACTOR = 0.12
 
 export default function PremiumGlowCard({
@@ -19,17 +18,6 @@ export default function PremiumGlowCard({
   const [, forceUpdate] = useState(0)
   const rafId = useRef<number | null>(null)
   const mounted = useRef(true)
-
-  const particles = useMemo(
-    () =>
-      Array.from({ length: PARTICLE_COUNT }, (_, i) => ({
-        left: `${10 + ((i * 17) % 80)}%`,
-        top: `${10 + ((i * 19) % 80)}%`,
-        duration: 12 + (i % 3) * 2.7,
-        delay: ((i * 1.7) % 10),
-      })),
-    []
-  )
 
   useEffect(() => {
     mounted.current = true
@@ -90,20 +78,6 @@ export default function PremiumGlowCard({
       onMouseLeave={() => setHovered(false)}
     >
       <div className={styles.glowLayer} style={glowStyle} aria-hidden="true" />
-      <div className={styles.particles} aria-hidden="true">
-        {particles.map((p, i) => (
-          <span
-            key={i}
-            className={styles.particle}
-            style={{
-              left: p.left,
-              top: p.top,
-              animationDelay: `${p.delay}s`,
-              animationDuration: `${p.duration}s`,
-            }}
-          />
-        ))}
-      </div>
       <div className={styles.innerHighlight} aria-hidden="true" />
       <div className={styles.content}>{children}</div>
     </div>

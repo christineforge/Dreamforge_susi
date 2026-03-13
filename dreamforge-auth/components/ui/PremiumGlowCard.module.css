@@ -14,13 +14,6 @@
   transition: opacity 0.35s ease;
 }
 
-.particles {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  z-index: 1;
-}
-
 .innerHighlight {
   position: absolute;
   inset: 0;
@@ -37,37 +30,5 @@
 
 .content {
   position: relative;
-  z-index: 2;
-}
-
-.particle {
-  position: absolute;
-  width: 4px;
-  height: 4px;
-  border-radius: 50%;
-  background: rgba(200, 140, 255, 0.5);
-  box-shadow: 0 0 6px rgba(180, 120, 255, 0.35);
-  animation: particleFloat linear infinite;
-  transform: translateZ(0);
-}
-
-@keyframes particleFloat {
-  0% {
-    transform: translateY(0) translateZ(0) scale(1);
-    opacity: 0.15;
-  }
-  25% {
-    opacity: 0.45;
-  }
-  50% {
-    transform: translateY(-20px) translateZ(0) scale(1.1);
-    opacity: 0.4;
-  }
-  75% {
-    opacity: 0.3;
-  }
-  100% {
-    transform: translateY(-40px) translateZ(0) scale(1);
-    opacity: 0.15;
-  }
+  z-index: 1;
 }

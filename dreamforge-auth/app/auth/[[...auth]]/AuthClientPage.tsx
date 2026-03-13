@@ -3,6 +3,7 @@ import Image from 'next/image'
 import { SignIn, SignUp } from '@clerk/nextjs'
 import { useParams, useSearchParams } from 'next/navigation'
 import PremiumGlowCard from '@/components/ui/PremiumGlowCard'
+import AmbientParticles from '@/components/ui/AmbientParticles'
 
 export default function AuthClientPage() {
   const params = useParams<{ auth?: string[] }>()
@@ -26,6 +27,7 @@ export default function AuthClientPage() {
       >
         <section
           style={{
+            position: 'relative',
             width: '100%',
             maxWidth: '28rem',
             display: 'flex',
@@ -34,6 +36,8 @@ export default function AuthClientPage() {
             gap: '1.5rem',
           }}
         >
+          <AmbientParticles />
+          <div style={{ position: 'relative', zIndex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1.5rem', width: '100%' }}>
           <Image
             src="/images/logo.png"
             alt="DreamForge"
@@ -97,6 +101,7 @@ export default function AuthClientPage() {
               {isSignInFlow ? <SignIn /> : <SignUp />}
             </div>
           </PremiumGlowCard>
+          </div>
         </section>
       </main>
       <style jsx global>{`
@@ -132,12 +137,6 @@ export default function AuthClientPage() {
           left: auto !important;
           margin-left: 0 !important;
           transform: none !important;
-        }
-
-        [data-premium-glow-card] .cl-card {
-          background: rgba(255, 255, 255, 0.02) !important;
-          backdrop-filter: blur(6px) saturate(140%) !important;
-          -webkit-backdrop-filter: blur(6px) saturate(140%) !important;
         }
 
         .cl-rootBox,
