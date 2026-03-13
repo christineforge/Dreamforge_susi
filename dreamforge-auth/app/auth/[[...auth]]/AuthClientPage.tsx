@@ -2,9 +2,6 @@
 import Image from 'next/image'
 import { SignIn, SignUp } from '@clerk/nextjs'
 import { useParams, useSearchParams } from 'next/navigation'
-import PremiumGlowCard from '@/components/ui/PremiumGlowCard'
-import AmbientParticles from '@/components/ui/AmbientParticles'
-
 export default function AuthClientPage() {
   const params = useParams<{ auth?: string[] }>()
   const searchParams = useSearchParams()
@@ -51,7 +48,6 @@ export default function AuthClientPage() {
             }}
           />
           <div className="auth-section-content" style={{ position: 'relative', width: '100%' }}>
-            <AmbientParticles />
             <div
               style={{
                 position: 'absolute',
@@ -96,19 +92,13 @@ export default function AuthClientPage() {
                 {isSignInFlow ? 'Sign up' : 'Sign in'}
               </button>
             </div>
-            <PremiumGlowCard>
-              <div className="auth-card-area" style={{ position: 'relative', zIndex: 1 }}>
-                {isSignInFlow ? <SignIn /> : <SignUp />}
-              </div>
-            </PremiumGlowCard>
+            <div className="auth-card-area" style={{ position: 'relative', zIndex: 1 }}>
+              {isSignInFlow ? <SignIn /> : <SignUp />}
+            </div>
           </div>
         </section>
       </main>
       <style jsx global>{`
-        .auth-section-content .ambient-particles {
-          opacity: 1;
-        }
-
         .auth-background {
           background-color: #070218;
           background-image: url('/images/DreamForge-Latest-BG.png?v=3');
