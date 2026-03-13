@@ -2,6 +2,8 @@
 import Image from 'next/image'
 import { SignIn, SignUp } from '@clerk/nextjs'
 import { useParams, useSearchParams } from 'next/navigation'
+import PremiumGlowCard from '@/components/ui/PremiumGlowCard'
+
 export default function AuthClientPage() {
   const params = useParams<{ auth?: string[] }>()
   const searchParams = useSearchParams()
@@ -92,9 +94,11 @@ export default function AuthClientPage() {
                 {isSignInFlow ? 'Sign up' : 'Sign in'}
               </button>
             </div>
-            <div className="auth-card-area" style={{ position: 'relative', zIndex: 1 }}>
-              {isSignInFlow ? <SignIn /> : <SignUp />}
-            </div>
+            <PremiumGlowCard>
+              <div className="auth-card-area" style={{ position: 'relative', zIndex: 1 }}>
+                {isSignInFlow ? <SignIn /> : <SignUp />}
+              </div>
+            </PremiumGlowCard>
           </div>
         </section>
       </main>
