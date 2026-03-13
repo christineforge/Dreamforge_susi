@@ -25,13 +25,15 @@ export default function PremiumGlowCard({
     opacity: hovered ? 1 : 0,
     background: `
       radial-gradient(circle at ${pos.x}px ${pos.y}px,
-      rgba(168,85,247,0.24),
-      rgba(124,58,237,0.12) 22%,
-      rgba(88,28,135,0.08) 38%,
-      transparent 65%),
+        rgba(168,85,247,0.24),
+        rgba(124,58,237,0.12) 22%,
+        rgba(88,28,135,0.08) 38%,
+        transparent 65%
+      ),
       radial-gradient(circle at ${pos.x}px ${pos.y}px,
-      rgba(96,165,250,0.10),
-      transparent 55%)
+        rgba(96,165,250,0.10),
+        transparent 55%
+      )
     `,
   }
 
