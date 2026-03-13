@@ -8,11 +8,12 @@
   position: absolute;
   inset: 0;
   pointer-events: none;
+  z-index: 0;
   filter: blur(48px);
   transition: opacity 0.35s ease;
 }
 
-.particlesLayer {
+.particles {
   position: absolute;
   inset: 0;
   pointer-events: none;
@@ -40,24 +41,30 @@
 
 .particle {
   position: absolute;
+  width: 3px;
+  height: 3px;
   border-radius: 50%;
-  animation: floatParticle 14s linear infinite;
-  opacity: 0.25;
+  background: rgba(180, 120, 255, 0.5);
+  opacity: 0.3;
+  animation: particleFloat linear infinite;
 }
 
-@keyframes floatParticle {
+@keyframes particleFloat {
   0% {
-    transform: translateY(24px);
+    transform: translateY(0px) scale(1);
     opacity: 0;
   }
-  30% {
-    opacity: 0.35;
+  20% {
+    opacity: 0.5;
   }
-  70% {
+  50% {
+    transform: translateY(-20px) scale(1.1);
+  }
+  80% {
     opacity: 0.3;
   }
   100% {
-    transform: translateY(-48px);
+    transform: translateY(-40px) scale(1);
     opacity: 0;
   }
 }

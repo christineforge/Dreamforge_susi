@@ -3,7 +3,7 @@
 import { useState, useRef, useEffect, useMemo } from 'react'
 import styles from './PremiumGlowCard.module.css'
 
-const PARTICLE_COUNT = 5
+const PARTICLE_COUNT = 6
 const SMOOTH_FACTOR = 0.12
 
 export default function PremiumGlowCard({
@@ -23,12 +23,10 @@ export default function PremiumGlowCard({
   const particles = useMemo(
     () =>
       Array.from({ length: PARTICLE_COUNT }, (_, i) => ({
-        left: `${12 + (i * 19) % 76}%`,
-        top: `${8 + (i * 23) % 84}%`,
-        size: 2 + (i % 3),
-        duration: 12 + (i % 5),
-        delay: `${i * 2.5}s`,
-        color: i % 3 === 0 ? 'rgba(219, 180, 255, 0.5)' : i % 3 === 1 ? 'rgba(196, 181, 253, 0.45)' : 'rgba(244, 114, 182, 0.4)',
+        left: `${10 + ((i * 17) % 80)}%`,
+        top: `${10 + ((i * 19) % 80)}%`,
+        duration: 12 + (i % 3) * 2.7,
+        delay: ((i * 1.7) % 10),
       })),
     []
   )
@@ -91,7 +89,7 @@ export default function PremiumGlowCard({
       onMouseLeave={() => setHovered(false)}
     >
       <div className={styles.glowLayer} style={glowStyle} aria-hidden="true" />
-      <div className={styles.particlesLayer} aria-hidden="true">
+      <div className={styles.particles} aria-hidden="true">
         {particles.map((p, i) => (
           <span
             key={i}
@@ -99,11 +97,8 @@ export default function PremiumGlowCard({
             style={{
               left: p.left,
               top: p.top,
-              width: p.size,
-              height: p.size,
-              background: p.color,
+              animationDelay: `${p.delay}s`,
               animationDuration: `${p.duration}s`,
-              animationDelay: p.delay,
             }}
           />
         ))}
