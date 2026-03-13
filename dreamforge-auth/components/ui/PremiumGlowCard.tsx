@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import styles from './PremiumGlowCard.module.css'
 
 export default function PremiumGlowCard({
@@ -10,11 +10,13 @@ export default function PremiumGlowCard({
   children: React.ReactNode
   className?: string
 }) {
+  const cardRef = useRef<HTMLDivElement>(null)
   const [hovered, setHovered] = useState(false)
   const [pos, setPos] = useState({ x: 0, y: 0 })
 
-  function handleMove(e: React.MouseEvent<HTMLDivElement>) {
-    const rect = e.currentTarget.getBoundingClientRect()
+  function handleMove(e: React.MouseEvent) {
+    if (!cardRef.current) return
+    const rect = cardRef.current.getBoundingClientRect()
     setPos({
       x: e.clientX - rect.left,
       y: e.clientY - rect.top,
@@ -45,7 +47,7 @@ export default function PremiumGlowCard({
       onMouseLeave={() => setHovered(false)}
     >
       <div className={styles.glow} style={glowStyle} aria-hidden="true" />
-      <div className={styles.card}>{children}</div>
+      <div ref={cardRef} className={styles.card}>{children}</div>
     </div>
   )
 }
