@@ -2,8 +2,7 @@
 import Image from 'next/image'
 import { SignIn, SignUp } from '@clerk/nextjs'
 import { useParams, useSearchParams } from 'next/navigation'
-import InteractiveGlowCard from '@/components/ui/InteractiveGlowCard'
-import CardParticles from '@/components/ui/CardParticles'
+import PremiumGlowCard from '@/components/ui/PremiumGlowCard'
 
 export default function AuthClientPage() {
   const params = useParams<{ auth?: string[] }>()
@@ -49,8 +48,7 @@ export default function AuthClientPage() {
               marginRight: 'auto',
             }}
           />
-          <InteractiveGlowCard>
-            <CardParticles />
+          <PremiumGlowCard>
             <div style={{ width: '100%', position: 'relative' }}>
               <div
                 style={{
@@ -98,7 +96,7 @@ export default function AuthClientPage() {
               </div>
               {isSignInFlow ? <SignIn /> : <SignUp />}
             </div>
-          </InteractiveGlowCard>
+          </PremiumGlowCard>
         </section>
       </main>
       <style jsx global>{`
