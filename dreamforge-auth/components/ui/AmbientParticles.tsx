@@ -5,9 +5,9 @@ import styles from './AmbientParticles.module.css'
 
 const PARTICLE_COUNT = 14
 const COLORS = [
-  'rgba(124,58,237,0.75)',
-  'rgba(139,92,246,0.7)',
-  'rgba(99,102,241,0.65)',
+  'rgba(59,130,246,0.75)',
+  'rgba(96,165,250,0.7)',
+  'rgba(147,197,253,0.65)',
 ] as const
 
 export default function AmbientParticles() {
