@@ -5,9 +5,9 @@ import styles from './AmbientParticles.module.css'
 
 const PARTICLE_COUNT = 14
 const COLORS = [
-  'rgba(124,58,237,0.45)',
-  'rgba(139,92,246,0.4)',
-  'rgba(99,102,241,0.35)',
+  'rgba(124,58,237,0.75)',
+  'rgba(139,92,246,0.7)',
+  'rgba(99,102,241,0.65)',
 ] as const
 
 export default function AmbientParticles() {
@@ -20,11 +20,11 @@ export default function AmbientParticles() {
         return {
           left: `${Math.min(95, Math.max(2, left))}%`,
           top: `${Math.min(95, Math.max(2, top))}%`,
-          duration: 18 + (i % 9),
-          delay: (i * 4.2) % 16,
+          duration: 10 + (i % 6),
+          delay: (i * 2.5) % 8,
           color: COLORS[i % COLORS.length],
           animation: `particleDrift${(i % 4) + 1}`,
-          size: 2 + (i % 2),
+          size: 3,
         }
       }),
     []
