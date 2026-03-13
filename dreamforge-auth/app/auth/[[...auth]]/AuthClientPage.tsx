@@ -113,6 +113,43 @@ export default function AuthClientPage() {
           opacity: 1;
         }
 
+        @keyframes particleDrift1 {
+          0% { transform: translate(0, 0); opacity: 0; }
+          12% { opacity: 0.5; }
+          25% { transform: translate(8px, -12px); }
+          50% { transform: translate(18px, -28px); }
+          75% { transform: translate(28px, -42px); }
+          88% { opacity: 0.4; }
+          100% { transform: translate(35px, -50px); opacity: 0; }
+        }
+        @keyframes particleDrift2 {
+          0% { transform: translate(0, 0); opacity: 0; }
+          12% { opacity: 0.5; }
+          25% { transform: translate(-6px, -10px); }
+          50% { transform: translate(-20px, -32px); }
+          75% { transform: translate(-28px, -40px); }
+          88% { opacity: 0.4; }
+          100% { transform: translate(-38px, -48px); opacity: 0; }
+        }
+        @keyframes particleDrift3 {
+          0% { transform: translate(0, 0); opacity: 0; }
+          12% { opacity: 0.5; }
+          25% { transform: translate(10px, 8px); }
+          50% { transform: translate(22px, 18px); }
+          75% { transform: translate(35px, 25px); }
+          88% { opacity: 0.4; }
+          100% { transform: translate(45px, 32px); opacity: 0; }
+        }
+        @keyframes particleDrift4 {
+          0% { transform: translate(0, 0); opacity: 0; }
+          12% { opacity: 0.5; }
+          25% { transform: translate(-8px, 10px); }
+          50% { transform: translate(-20px, 22px); }
+          75% { transform: translate(-32px, 30px); }
+          88% { opacity: 0.4; }
+          100% { transform: translate(-42px, 38px); opacity: 0; }
+        }
+
         .auth-background {
           background-color: #070218;
           background-image: url('/images/DreamForge-Latest-BG.png?v=3');
@@ -147,11 +184,18 @@ export default function AuthClientPage() {
           transform: none !important;
         }
 
+        .auth-card-area .cl-rootBox {
+          background: transparent !important;
+          box-shadow: none !important;
+        }
         .auth-card-area .cl-cardBox {
           width: 100% !important;
           max-width: 100% !important;
           background: transparent !important;
           box-shadow: none !important;
+        }
+        .auth-card-area .cl-card {
+          box-shadow: 0 2px 12px rgba(0, 0, 0, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.06) !important;
         }
 
         .cl-rootBox,

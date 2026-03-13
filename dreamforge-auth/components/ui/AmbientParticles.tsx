@@ -9,7 +9,6 @@ const COLORS = [
   'rgba(139,92,246,0.4)',
   'rgba(99,102,241,0.35)',
 ] as const
-const ANIMATION_VARIANTS = ['particleDrift1', 'particleDrift2', 'particleDrift3', 'particleDrift4'] as const
 
 export default function AmbientParticles() {
   const particles = useMemo(
@@ -24,7 +23,7 @@ export default function AmbientParticles() {
           duration: 18 + (i % 9),
           delay: (i * 4.2) % 16,
           color: COLORS[i % COLORS.length],
-          animation: ANIMATION_VARIANTS[i % ANIMATION_VARIANTS.length],
+          animation: `particleDrift${(i % 4) + 1}`,
           size: 2 + (i % 2),
         }
       }),
@@ -36,12 +35,11 @@ export default function AmbientParticles() {
       {particles.map((p, i) => (
         <span
           key={i}
-          className={`${styles.particle} ${styles[p.animation]}`}
+          className={styles.particle}
           style={{
             left: p.left,
             top: p.top,
-            animationDuration: `${p.duration}s`,
-            animationDelay: `${p.delay}s`,
+            animation: `${p.animation} ${p.duration}s ease-in-out ${p.delay}s infinite`,
             background: p.color,
             width: p.size,
             height: p.size,

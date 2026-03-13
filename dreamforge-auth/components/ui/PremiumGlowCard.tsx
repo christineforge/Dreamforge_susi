@@ -59,10 +59,10 @@ export default function PremiumGlowCard({
 
   const { x, y } = smoothPos.current
   const glowStyle = {
-    opacity: hovered ? 1 : 0,
+    opacity: hovered ? 0.8 : 0,
     background: `
-      radial-gradient(circle at ${x}px ${y}px, rgba(168,85,247,0.24), rgba(124,58,237,0.12) 22%, rgba(88,28,135,0.08) 38%, transparent 65%),
-      radial-gradient(circle at ${x}px ${y}px, rgba(96,165,250,0.10), transparent 55%)
+      radial-gradient(circle at ${x}px ${y}px, rgba(168,85,247,0.18), rgba(124,58,237,0.08) 22%, rgba(88,28,135,0.05) 38%, transparent 65%),
+      radial-gradient(circle at ${x}px ${y}px, rgba(96,165,250,0.06), transparent 55%)
     `,
   }
 
