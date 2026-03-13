@@ -2,6 +2,8 @@
 import Image from 'next/image'
 import { SignIn, SignUp } from '@clerk/nextjs'
 import { useParams, useSearchParams } from 'next/navigation'
+import InteractiveGlowCard from '@/components/ui/InteractiveGlowCard'
+import CardParticles from '@/components/ui/CardParticles'
 
 export default function AuthClientPage() {
   const params = useParams<{ auth?: string[] }>()
@@ -47,53 +49,56 @@ export default function AuthClientPage() {
               marginRight: 'auto',
             }}
           />
-          <div style={{ width: '100%', position: 'relative' }}>
-            <div
-              style={{
-                position: 'absolute',
-                top: '5.6rem',
-                left: '50%',
-                transform: 'translateX(-50%)',
-                zIndex: 3,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                whiteSpace: 'nowrap',
-                gap: '0.75rem',
-                color: 'rgba(255, 255, 255, 0.85)',
-              }}
-            >
-              <span>{isSignInFlow ? "Don't have an account?" : 'Have an account?'}</span>
-              <button
-                type="button"
-                className="signin-pill"
-                onClick={() => {
-                  const currentParams = new URLSearchParams(window.location.search)
-                  const redirectUrl = currentParams.get('redirect_url')
-                  const target = isSignInFlow ? '/auth' : '/auth?mode=sign-in'
-                  const separator = target.includes('?') ? '&' : '?'
-                  window.location.href = redirectUrl
-                    ? `${target}${separator}redirect_url=${encodeURIComponent(redirectUrl)}`
-                    : target
-                }}
+          <InteractiveGlowCard>
+            <CardParticles />
+            <div style={{ width: '100%', position: 'relative' }}>
+              <div
                 style={{
-                  display: 'inline-flex',
+                  position: 'absolute',
+                  top: '5.6rem',
+                  left: '50%',
+                  transform: 'translateX(-50%)',
+                  zIndex: 3,
+                  display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  border: '1px solid rgba(255, 255, 255, 0.5)',
-                  borderRadius: '9999px',
-                  background: 'rgba(255, 255, 255, 0.08)',
-                  color: '#ffffff',
-                  textDecoration: 'none',
-                  padding: '0.45rem 0.9rem',
-                  cursor: 'pointer',
+                  whiteSpace: 'nowrap',
+                  gap: '0.75rem',
+                  color: 'rgba(255, 255, 255, 0.85)',
                 }}
               >
-                {isSignInFlow ? 'Sign up' : 'Sign in'}
-              </button>
+                <span>{isSignInFlow ? "Don't have an account?" : 'Have an account?'}</span>
+                <button
+                  type="button"
+                  className="signin-pill"
+                  onClick={() => {
+                    const currentParams = new URLSearchParams(window.location.search)
+                    const redirectUrl = currentParams.get('redirect_url')
+                    const target = isSignInFlow ? '/auth' : '/auth?mode=sign-in'
+                    const separator = target.includes('?') ? '&' : '?'
+                    window.location.href = redirectUrl
+                      ? `${target}${separator}redirect_url=${encodeURIComponent(redirectUrl)}`
+                      : target
+                  }}
+                  style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    border: '1px solid rgba(255, 255, 255, 0.5)',
+                    borderRadius: '9999px',
+                    background: 'rgba(255, 255, 255, 0.08)',
+                    color: '#ffffff',
+                    textDecoration: 'none',
+                    padding: '0.45rem 0.9rem',
+                    cursor: 'pointer',
+                  }}
+                >
+                  {isSignInFlow ? 'Sign up' : 'Sign in'}
+                </button>
+              </div>
+              {isSignInFlow ? <SignIn /> : <SignUp />}
             </div>
-            {isSignInFlow ? <SignIn /> : <SignUp />}
-          </div>
+          </InteractiveGlowCard>
         </section>
       </main>
       <style jsx global>{`

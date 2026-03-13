@@ -1,0 +1,18 @@
+.glowCard {
+  position: relative;
+  overflow: hidden;
+  border-radius: 20px;
+}
+
+.glowLayer {
+  position: absolute;
+  inset: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+  filter: blur(40px);
+}
+
+.cardContent {
+  position: relative;
+  z-index: 2;
+}
