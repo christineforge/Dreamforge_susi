@@ -134,6 +134,12 @@ export default function AuthClientPage() {
           transform: none !important;
         }
 
+        [data-premium-glow-card] .cl-card {
+          background: rgba(255, 255, 255, 0.02) !important;
+          backdrop-filter: blur(6px) saturate(140%) !important;
+          -webkit-backdrop-filter: blur(6px) saturate(140%) !important;
+        }
+
         .cl-rootBox,
         .cl-cardBox,
         .cl-card,

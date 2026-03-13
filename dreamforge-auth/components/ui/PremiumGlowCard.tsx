@@ -81,6 +81,7 @@ export default function PremiumGlowCard({
   return (
     <div
       className={`${styles.wrapper} ${className}`.trim()}
+      data-premium-glow-card
       onMouseMove={updateMousePos}
       onMouseEnter={(e) => {
         updateMousePos(e)
