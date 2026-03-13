@@ -1,9 +1,7 @@
 'use client'
 
-import { useState, useRef, useEffect } from 'react'
+import { useState } from 'react'
 import styles from './PremiumGlowCard.module.css'
-
-const SMOOTH_FACTOR = 0.12
 
 export default function PremiumGlowCard({
   children,
@@ -13,72 +11,39 @@ export default function PremiumGlowCard({
   className?: string
 }) {
   const [hovered, setHovered] = useState(false)
-  const targetPos = useRef({ x: 0, y: 0 })
-  const smoothPos = useRef({ x: 0, y: 0 })
-  const [, forceUpdate] = useState(0)
-  const rafId = useRef<number | null>(null)
-  const mounted = useRef(true)
+  const [pos, setPos] = useState({ x: 0, y: 0 })
 
-  useEffect(() => {
-    mounted.current = true
-    return () => {
-      mounted.current = false
-      if (rafId.current) cancelAnimationFrame(rafId.current)
-    }
-  }, [])
-
-  function updateMousePos(e: React.MouseEvent<HTMLDivElement>) {
+  function handleMove(e: React.MouseEvent<HTMLDivElement>) {
     const rect = e.currentTarget.getBoundingClientRect()
-    const x = e.clientX - rect.left
-    const y = e.clientY - rect.top
-    targetPos.current = { x, y }
-    if (!hovered) smoothPos.current = { x, y }
+    setPos({
+      x: e.clientX - rect.left,
+      y: e.clientY - rect.top,
+    })
   }
 
-  useEffect(() => {
-    if (!hovered) return
-
-    function tick() {
-      if (!mounted.current) return
-
-      const dx = targetPos.current.x - smoothPos.current.x
-      const dy = targetPos.current.y - smoothPos.current.y
-
-      smoothPos.current.x += dx * SMOOTH_FACTOR
-      smoothPos.current.y += dy * SMOOTH_FACTOR
-
-      forceUpdate((n) => n + 1)
-      rafId.current = requestAnimationFrame(tick)
-    }
-
-    rafId.current = requestAnimationFrame(tick)
-    return () => {
-      if (rafId.current) cancelAnimationFrame(rafId.current)
-    }
-  }, [hovered])
-
-  const { x, y } = smoothPos.current
   const glowStyle = {
     opacity: hovered ? 1 : 0,
     background: `
-      radial-gradient(circle at ${x}px ${y}px, rgba(168,85,247,0.24), rgba(124,58,237,0.12) 22%, rgba(88,28,135,0.08) 38%, transparent 65%),
-      radial-gradient(circle at ${x}px ${y}px, rgba(96,165,250,0.10), transparent 55%)
+      radial-gradient(circle at ${pos.x}px ${pos.y}px,
+      rgba(168,85,247,0.24),
+      rgba(124,58,237,0.12) 22%,
+      rgba(88,28,135,0.08) 38%,
+      transparent 65%),
+      radial-gradient(circle at ${pos.x}px ${pos.y}px,
+      rgba(96,165,250,0.10),
+      transparent 55%)
     `,
   }
 
   return (
     <div
       className={`${styles.wrapper} ${className}`.trim()}
-      data-premium-glow-card
-      onMouseMove={updateMousePos}
-      onMouseEnter={(e) => {
-        updateMousePos(e)
-        setHovered(true)
-      }}
+      onMouseMove={handleMove}
+      onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
-      <div className={styles.glowLayer} style={glowStyle} aria-hidden="true" />
-      <div className={styles.content}>{children}</div>
+      <div className={styles.glow} style={glowStyle} aria-hidden="true" />
+      <div className={styles.card}>{children}</div>
     </div>
   )
 }

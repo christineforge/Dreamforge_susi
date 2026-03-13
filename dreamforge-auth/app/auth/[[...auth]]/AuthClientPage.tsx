@@ -50,27 +50,28 @@ export default function AuthClientPage() {
               marginRight: 'auto',
             }}
           />
-          <div className="auth-card-area" style={{ position: 'relative', zIndex: 1, width: '100%' }}>
+          <div className="auth-section-content" style={{ position: 'relative', width: '100%' }}>
             <AmbientParticles />
-            <PremiumGlowCard>
-              <div style={{ width: '100%', position: 'relative' }}>
-                <div
-                  style={{
-                    position: 'absolute',
-                    top: '5.6rem',
-                    left: '50%',
-                    transform: 'translateX(-50%)',
-                    zIndex: 3,
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    whiteSpace: 'nowrap',
-                    gap: '0.75rem',
-                    color: 'rgba(255, 255, 255, 0.85)',
-                  }}
-                >
-                  <span>{isSignInFlow ? "Don't have an account?" : 'Have an account?'}</span>
-                  <button
+            <div className="auth-card-area" style={{ position: 'relative', zIndex: 1 }}>
+              <PremiumGlowCard>
+                <div style={{ width: '100%', position: 'relative' }}>
+                  <div
+                    style={{
+                      position: 'absolute',
+                      top: '5.6rem',
+                      left: '50%',
+                      transform: 'translateX(-50%)',
+                      zIndex: 3,
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      whiteSpace: 'nowrap',
+                      gap: '0.75rem',
+                      color: 'rgba(255, 255, 255, 0.85)',
+                    }}
+                  >
+                    <span>{isSignInFlow ? "Don't have an account?" : 'Have an account?'}</span>
+                    <button
                     type="button"
                     className="signin-pill"
                     onClick={() => {
@@ -93,23 +94,20 @@ export default function AuthClientPage() {
                     textDecoration: 'none',
                     padding: '0.45rem 0.9rem',
                     cursor: 'pointer',
-                  }}
-                  >
-                    {isSignInFlow ? 'Sign up' : 'Sign in'}
-                  </button>
+                    }}
+                    >
+                      {isSignInFlow ? 'Sign up' : 'Sign in'}
+                    </button>
+                  </div>
+                  {isSignInFlow ? <SignIn /> : <SignUp />}
                 </div>
-                {isSignInFlow ? <SignIn /> : <SignUp />}
-              </div>
-            </PremiumGlowCard>
+              </PremiumGlowCard>
+            </div>
           </div>
         </section>
       </main>
       <style jsx global>{`
-        .auth-card-area .ambient-particles {
-          opacity: 0;
-          transition: opacity 0.4s ease;
-        }
-        .auth-card-area:hover .ambient-particles {
+        .auth-section-content .ambient-particles {
           opacity: 1;
         }
 
@@ -159,7 +157,9 @@ export default function AuthClientPage() {
         }
         .auth-card-area .cl-card {
           border: none !important;
-          box-shadow: 0 2px 12px rgba(0, 0, 0, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.06) !important;
+          outline: none !important;
+          box-shadow: none !important;
+          background: transparent !important;
         }
 
         .cl-rootBox,
