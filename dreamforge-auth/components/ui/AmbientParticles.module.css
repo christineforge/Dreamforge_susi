@@ -11,8 +11,8 @@
   position: absolute;
   border-radius: 50%;
   box-shadow:
-    0 0 8px rgba(168, 85, 247, 0.95),
-    0 0 14px rgba(168, 85, 247, 0.6);
+    0 0 8px rgba(124, 58, 237, 0.95),
+    0 0 14px rgba(139, 92, 246, 0.6);
   animation-timing-function: linear;
   animation-iteration-count: infinite;
   will-change: transform;

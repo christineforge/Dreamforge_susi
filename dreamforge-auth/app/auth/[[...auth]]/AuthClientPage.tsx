@@ -36,8 +36,6 @@ export default function AuthClientPage() {
             gap: '1.5rem',
           }}
         >
-          <AmbientParticles />
-          <div style={{ position: 'relative', zIndex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1.5rem', width: '100%' }}>
           <Image
             src="/images/logo.png"
             alt="DreamForge"
@@ -52,36 +50,38 @@ export default function AuthClientPage() {
               marginRight: 'auto',
             }}
           />
-          <PremiumGlowCard>
-            <div style={{ width: '100%', position: 'relative' }}>
-              <div
-                style={{
-                  position: 'absolute',
-                  top: '5.6rem',
-                  left: '50%',
-                  transform: 'translateX(-50%)',
-                  zIndex: 3,
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  whiteSpace: 'nowrap',
-                  gap: '0.75rem',
-                  color: 'rgba(255, 255, 255, 0.85)',
-                }}
-              >
-                <span>{isSignInFlow ? "Don't have an account?" : 'Have an account?'}</span>
-                <button
-                  type="button"
-                  className="signin-pill"
-                  onClick={() => {
-                    const currentParams = new URLSearchParams(window.location.search)
-                    const redirectUrl = currentParams.get('redirect_url')
-                    const target = isSignInFlow ? '/auth' : '/auth?mode=sign-in'
-                    const separator = target.includes('?') ? '&' : '?'
-                    window.location.href = redirectUrl
-                      ? `${target}${separator}redirect_url=${encodeURIComponent(redirectUrl)}`
-                      : target
+          <div className="auth-card-area" style={{ position: 'relative', zIndex: 1, width: '100%' }}>
+            <AmbientParticles />
+            <PremiumGlowCard>
+              <div style={{ width: '100%', position: 'relative' }}>
+                <div
+                  style={{
+                    position: 'absolute',
+                    top: '5.6rem',
+                    left: '50%',
+                    transform: 'translateX(-50%)',
+                    zIndex: 3,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    whiteSpace: 'nowrap',
+                    gap: '0.75rem',
+                    color: 'rgba(255, 255, 255, 0.85)',
                   }}
+                >
+                  <span>{isSignInFlow ? "Don't have an account?" : 'Have an account?'}</span>
+                  <button
+                    type="button"
+                    className="signin-pill"
+                    onClick={() => {
+                      const currentParams = new URLSearchParams(window.location.search)
+                      const redirectUrl = currentParams.get('redirect_url')
+                      const target = isSignInFlow ? '/auth' : '/auth?mode=sign-in'
+                      const separator = target.includes('?') ? '&' : '?'
+                      window.location.href = redirectUrl
+                        ? `${target}${separator}redirect_url=${encodeURIComponent(redirectUrl)}`
+                        : target
+                    }}
                   style={{
                     display: 'inline-flex',
                     alignItems: 'center',
@@ -94,17 +94,25 @@ export default function AuthClientPage() {
                     padding: '0.45rem 0.9rem',
                     cursor: 'pointer',
                   }}
-                >
-                  {isSignInFlow ? 'Sign up' : 'Sign in'}
-                </button>
+                  >
+                    {isSignInFlow ? 'Sign up' : 'Sign in'}
+                  </button>
+                </div>
+                {isSignInFlow ? <SignIn /> : <SignUp />}
               </div>
-              {isSignInFlow ? <SignIn /> : <SignUp />}
-            </div>
-          </PremiumGlowCard>
+            </PremiumGlowCard>
           </div>
         </section>
       </main>
       <style jsx global>{`
+        .auth-card-area .ambient-particles {
+          opacity: 0;
+          transition: opacity 0.4s ease;
+        }
+        .auth-card-area:hover .ambient-particles {
+          opacity: 1;
+        }
+
         .auth-background {
           background-color: #070218;
           background-image: url('/images/DreamForge-Latest-BG.png?v=3');

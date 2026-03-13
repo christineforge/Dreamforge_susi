@@ -5,9 +5,9 @@ import styles from './AmbientParticles.module.css'
 
 const PARTICLE_COUNT = 22
 const COLORS = [
-  'rgba(168,85,247,0.9)',
-  'rgba(192,132,252,0.8)',
-  'rgba(217,70,239,0.7)',
+  'rgba(124,58,237,0.9)',
+  'rgba(139,92,246,0.9)',
+  'rgba(99,102,241,0.85)',
 ] as const
 const ANIMATION_VARIANTS = ['particleDrift1', 'particleDrift2', 'particleDrift3', 'particleDrift4'] as const
 
@@ -27,7 +27,7 @@ export default function AmbientParticles() {
   )
 
   return (
-    <div className={styles.container} aria-hidden="true">
+    <div className={`${styles.container} ambient-particles`} aria-hidden="true">
       {particles.map((p, i) => (
         <span
           key={i}
