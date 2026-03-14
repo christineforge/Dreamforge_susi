@@ -61,7 +61,7 @@ export default function AuthClientPage() {
                   left: '50%',
                   transform: 'translateX(-50%)',
                   zIndex: 3,
-                  display: 'none',
+                  display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
                   whiteSpace: 'nowrap',

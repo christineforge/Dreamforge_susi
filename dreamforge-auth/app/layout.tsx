@@ -85,8 +85,7 @@ export default function RootLayout({
             justifyContent: 'center',
           },
           footerAction: {
-            display: 'flex',
-            justifyContent: 'center',
+            display: 'none',
           },
           // Hide header subtitle
           headerSubtitle: {
