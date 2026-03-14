@@ -1,9 +1,8 @@
 .container {
   position: absolute;
-  inset: -60px;
+  inset: 0;
   pointer-events: none;
   z-index: 0;
-  overflow: visible;
 }
 
 .particle {

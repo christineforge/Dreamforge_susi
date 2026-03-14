@@ -26,7 +26,9 @@ export default function AuthClientPage() {
         }}
       >
         <section
+          className="auth-section"
           style={{
+            position: 'relative',
             width: '100%',
             maxWidth: '28rem',
             display: 'flex',
@@ -35,6 +37,7 @@ export default function AuthClientPage() {
             gap: '1.5rem',
           }}
         >
+          <AmbientParticles />
           <Image
             src="/images/logo.png"
             alt="DreamForge"
@@ -49,9 +52,7 @@ export default function AuthClientPage() {
               marginRight: 'auto',
             }}
           />
-          <div className="auth-wrapper" style={{ position: 'relative', width: '100%' }}>
-            <AmbientParticles />
-            <PremiumGlowCard>
+          <PremiumGlowCard>
               <div style={{ width: '100%', position: 'relative' }}>
               <div
                 style={{
@@ -99,8 +100,7 @@ export default function AuthClientPage() {
               </div>
               {isSignInFlow ? <SignIn /> : <SignUp />}
               </div>
-            </PremiumGlowCard>
-          </div>
+          </PremiumGlowCard>
         </section>
       </main>
       <style jsx global>{`
