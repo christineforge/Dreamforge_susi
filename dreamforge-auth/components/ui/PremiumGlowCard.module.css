@@ -1,17 +1,63 @@
 .wrapper {
   position: relative;
+  overflow: hidden;
+  border-radius: 1.25rem;
 }
 
-.glow {
+.glowLayer {
   position: absolute;
-  inset: -80px;
+  inset: 0;
   pointer-events: none;
   filter: blur(48px);
   transition: opacity 0.35s ease;
-  z-index: 0;
+}
+
+.particlesLayer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.innerHighlight {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border-radius: inherit;
+  border: 1px solid rgba(168, 85, 247, 0.08);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.wrapper:hover .innerHighlight {
+  border-color: rgba(168, 85, 247, 0.15);
+  box-shadow: inset 0 0 24px rgba(168, 85, 247, 0.04);
 }
 
 .content {
   position: relative;
   z-index: 2;
+}
+
+.particle {
+  position: absolute;
+  border-radius: 50%;
+  animation: floatParticle 14s linear infinite;
+  opacity: 0.25;
+}
+
+@keyframes floatParticle {
+  0% {
+    transform: translateY(24px);
+    opacity: 0;
+  }
+  30% {
+    opacity: 0.35;
+  }
+  70% {
+    opacity: 0.3;
+  }
+  100% {
+    transform: translateY(-48px);
+    opacity: 0;
+  }
 }
