@@ -1,0 +1,16 @@
+.container {
+  position: absolute;
+  inset: -60px;
+  pointer-events: none;
+  z-index: 0;
+  overflow: visible;
+}
+
+.particle {
+  position: absolute;
+  border-radius: 50%;
+  box-shadow:
+    0 0 8px rgba(59,130,246,0.8),
+    0 0 14px rgba(96,165,250,0.5);
+  will-change: transform;
+}

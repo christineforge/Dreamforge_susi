@@ -3,6 +3,7 @@ import Image from 'next/image'
 import { SignIn, SignUp } from '@clerk/nextjs'
 import { useParams, useSearchParams } from 'next/navigation'
 import PremiumGlowCard from '@/components/ui/PremiumGlowCard'
+import AmbientParticles from '@/components/ui/AmbientParticles'
 
 export default function AuthClientPage() {
   const params = useParams<{ auth?: string[] }>()
@@ -48,8 +49,10 @@ export default function AuthClientPage() {
               marginRight: 'auto',
             }}
           />
-          <PremiumGlowCard>
-            <div style={{ width: '100%', position: 'relative' }}>
+          <div className="auth-wrapper" style={{ position: 'relative', width: '100%' }}>
+            <AmbientParticles />
+            <PremiumGlowCard>
+              <div style={{ width: '100%', position: 'relative' }}>
               <div
                 style={{
                   position: 'absolute',
@@ -57,7 +60,7 @@ export default function AuthClientPage() {
                   left: '50%',
                   transform: 'translateX(-50%)',
                   zIndex: 3,
-                  display: 'flex',
+                  display: 'none',
                   alignItems: 'center',
                   justifyContent: 'center',
                   whiteSpace: 'nowrap',
@@ -95,8 +98,9 @@ export default function AuthClientPage() {
                 </button>
               </div>
               {isSignInFlow ? <SignIn /> : <SignUp />}
-            </div>
-          </PremiumGlowCard>
+              </div>
+            </PremiumGlowCard>
+          </div>
         </section>
       </main>
       <style jsx global>{`
