@@ -1,6 +1,6 @@
 .container {
   position: absolute;
-  inset: 0;
+  inset: -50px;
   pointer-events: none;
   z-index: 0;
 }

@@ -18,19 +18,19 @@ export default function AmbientParticles() {
       const edgeBias = i % 4
       const left =
         edgeBias === 0
-          ? 2 + (i * 7) % 12
+          ? 0 + (i * 11) % 15
           : edgeBias === 1
-          ? 88 + (i * 5) % 10
-          : 15 + (i * 11) % 70
+          ? 85 + (i * 3) % 15
+          : 5 + (i * 13) % 90
       const top =
         edgeBias === 2
-          ? 3 + (i * 9) % 15
+          ? 0 + (i * 7) % 12
           : edgeBias === 3
-          ? 82 + (i * 6) % 12
-          : 20 + (i * 13) % 60
+          ? 88 + (i * 5) % 12
+          : 5 + (i * 17) % 90
       return {
-        left: `${Math.min(95, Math.max(2, left))}%`,
-        top: `${Math.min(95, Math.max(2, top))}%`,
+        left: `${Math.min(98, Math.max(0, left))}%`,
+        top: `${Math.min(98, Math.max(0, top))}%`,
         duration: 10 + (i % 6),
         delay: (i * 2.5) % 8,
         color: COLORS[i % COLORS.length],
@@ -41,8 +41,8 @@ export default function AmbientParticles() {
     const leftRight = Array.from({ length: EDGE_PARTICLE_COUNT }, (_, i) => {
       const isLeft = i % 2 === 0
       return {
-        left: isLeft ? `${2 + (i * 3) % 8}%` : `${90 + (i * 2) % 8}%`,
-        top: `${15 + (i * 11) % 70}%`,
+        left: isLeft ? `${0 + (i * 2) % 12}%` : `${88 + (i * 1.5) % 12}%`,
+        top: `${5 + (i * 13) % 90}%`,
         duration: 11 + (i % 5),
         delay: (i * 1.8) % 6,
         color: COLORS[i % COLORS.length],
