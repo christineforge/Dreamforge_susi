@@ -14,9 +14,8 @@ export default function PremiumGlowCard({
   className?: string
 }) {
   const [hovered, setHovered] = useState(false)
+  const [smoothPos, setSmoothPos] = useState({ x: 0, y: 0 })
   const targetPos = useRef({ x: 0, y: 0 })
-  const smoothPos = useRef({ x: 0, y: 0 })
-  const [, forceUpdate] = useState(0)
   const rafId = useRef<number | null>(null)
   const mounted = useRef(true)
 
@@ -46,7 +45,7 @@ export default function PremiumGlowCard({
     const x = e.clientX - rect.left
     const y = e.clientY - rect.top
     targetPos.current = { x, y }
-    if (!hovered) smoothPos.current = { x, y }
+    if (!hovered) setSmoothPos({ x, y })
   }
 
   useEffect(() => {
@@ -55,13 +54,15 @@ export default function PremiumGlowCard({
     function tick() {
       if (!mounted.current) return
 
-      const dx = targetPos.current.x - smoothPos.current.x
-      const dy = targetPos.current.y - smoothPos.current.y
+      setSmoothPos((prev) => {
+        const dx = targetPos.current.x - prev.x
+        const dy = targetPos.current.y - prev.y
+        return {
+          x: prev.x + dx * SMOOTH_FACTOR,
+          y: prev.y + dy * SMOOTH_FACTOR,
+        }
+      })
 
-      smoothPos.current.x += dx * SMOOTH_FACTOR
-      smoothPos.current.y += dy * SMOOTH_FACTOR
-
-      forceUpdate((n) => n + 1)
       rafId.current = requestAnimationFrame(tick)
     }
 
@@ -71,7 +72,7 @@ export default function PremiumGlowCard({
     }
   }, [hovered])
 
-  const { x, y } = smoothPos.current
+  const { x, y } = smoothPos
   const glowStyle = {
     opacity: hovered ? 1 : 0,
     background: `

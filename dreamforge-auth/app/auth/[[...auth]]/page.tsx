@@ -1,8 +1,4 @@
-import dynamic from 'next/dynamic'
-
-const AuthClientPage = dynamic(() => import('./AuthClientPage'), {
-  ssr: false,
-})
+import AuthClientPage from './AuthClientPage'
 
 export default function Page() {
   return <AuthClientPage />
