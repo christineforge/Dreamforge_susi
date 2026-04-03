@@ -1,71 +1,90 @@
 'use client'
 import Image from 'next/image'
-import { SignIn, SignUp } from '@clerk/nextjs'
+import { SignIn, SignUp, useSignIn, useSignUp } from '@clerk/nextjs'
 import { useParams, useSearchParams } from 'next/navigation'
 import PremiumGlowCard from '@/components/ui/PremiumGlowCard'
 import AmbientParticles from '@/components/ui/AmbientParticles'
 
-// Clerk appearance configuration for DreamForge theme
 const clerkAppearance = {
   variables: {
-    colorPrimary: '#7a3cff',
-    colorBackground: 'transparent',
-    colorInputBackground: 'rgba(255, 255, 255, 0.05)',
-    colorInputText: '#ffffff',
+    colorPrimary: '#00BBA7',
     colorText: '#ffffff',
-    colorTextSecondary: 'rgba(255, 255, 255, 0.7)',
+    colorInputText: '#ffffff',
+    colorInputBackground: 'rgba(255,255,255,0.15)',
+    colorBackground: 'transparent',
     fontFamily: 'var(--font-montserrat), Montserrat, sans-serif',
-    fontSize: '0.95rem',
-    borderRadius: '0.5rem',
   },
   elements: {
-    formButtonPrimary: {
-      fontSize: '0.95rem',
-      fontWeight: '600',
-      background: 'linear-gradient(135deg, #7a3cff 0%, #b24dff 100%)',
-      boxShadow: '0 0 0 1px rgba(168, 111, 255, 0.25)',
-      '&:hover': {
-        background: 'linear-gradient(135deg, #8a4cff 0%, #c25dff 100%)',
-        boxShadow: '0 0 0 1px rgba(0, 212, 255, 0.45), 0 0 18px rgba(0, 212, 255, 0.35)',
-      },
-    },
-    formFieldInput: {
-      fontSize: '0.95rem',
-      minHeight: '44px',
-      borderColor: 'rgba(255, 255, 255, 0.22)',
-      '&:focus': {
-        boxShadow: '0 0 0 2px rgba(0, 212, 255, 0.42), 0 0 20px rgba(0, 212, 255, 0.35)',
-        borderColor: 'rgba(0, 212, 255, 0.8)',
-      },
-      '&:hover': {
-        boxShadow: '0 0 0 1px rgba(0, 212, 255, 0.45), 0 0 18px rgba(0, 212, 255, 0.35)',
-        borderColor: 'rgba(0, 212, 255, 0.65)',
-      },
-    },
-    card: {
+    rootBox: {
+      width: '100%',
       backgroundColor: 'transparent',
       boxShadow: 'none',
     },
-    headerTitle: {
-      fontSize: '1.5rem',
-      fontWeight: '700',
-      color: '#ffffff',
+    cardBox: {
+      width: '100%',
+      boxShadow: 'none',
     },
-    headerSubtitle: {
-      color: 'rgba(255, 255, 255, 0.7)',
+    card: {
+      width: '100%',
+      backgroundColor: 'transparent',
+      boxShadow: 'none',
+      padding: '0',
     },
-    socialButtonsIconButton: {
-      borderColor: 'rgba(255, 255, 255, 0.22)',
-      backgroundColor: 'rgba(255, 255, 255, 0.05)',
+    main: {
+      width: '100%',
+      gap: '0.75rem',
+    },
+    headerTitle: { display: 'none' },
+    headerSubtitle: { display: 'none' },
+    socialButtons: { display: 'none' },
+    socialButtonsBlock: { display: 'none' },
+    dividerRow: { display: 'none' },
+    footerAction: { display: 'none' },
+    footer: { display: 'none' },
+    formFieldLabel: { color: '#fff' },
+    formFieldInput: {
+      borderRadius: '9999px',
+      height: '48px',
+      backgroundColor: 'rgba(255,255,255,0.12)',
+      borderColor: 'rgba(255,255,255,0.25)',
+      color: '#fff',
+      width: '100%',
+      boxSizing: 'border-box',
+      transition: 'all 0.25s ease',
+      '&::placeholder': {
+        color: 'rgba(255, 255, 255, 0.4)',
+      },
       '&:hover': {
-        boxShadow: '0 0 0 1px rgba(0, 212, 255, 0.45), 0 0 18px rgba(0, 212, 255, 0.35)',
-        borderColor: 'rgba(0, 212, 255, 0.65)',
+        borderColor: 'rgba(255, 255, 255, 0.45)',
+        backgroundColor: 'rgba(255,255,255,0.15)',
+      },
+      '&:focus': {
+        borderColor: 'rgba(94, 0, 149, 0.7)',
+        boxShadow: '0 0 0 2px rgba(94, 0, 149, 0.3), 0 0 16px rgba(94, 0, 149, 0.25)',
       },
     },
-    footerActionLink: {
-      color: 'rgba(255, 255, 255, 0.85)',
+    form: {
+      width: '100%',
+      gap: '0.75rem',
+    },
+    formButtonPrimary: {
+      borderRadius: '9999px',
+      height: '44px',
+      width: '100%',
+      background: 'linear-gradient(135deg, #00BBA7 0%, #00B8DB 100%)',
+      color: '#fff',
+      fontSize: '1rem',
+      fontWeight: '700',
+      transition: 'all 0.2s ease',
       '&:hover': {
-        color: '#ffffff',
+        transform: 'scale(1.02)',
+        boxShadow:
+          '0 0 20px rgba(0, 187, 167, 0.5), 0 0 40px rgba(0, 187, 167, 0.3)',
+      },
+      '&:active': {
+        transform: 'scale(0.98)',
+        boxShadow:
+          '0 0 24px rgba(0, 187, 167, 0.6), 0 0 48px rgba(0, 187, 167, 0.4)',
       },
     },
   },
@@ -74,36 +93,45 @@ const clerkAppearance = {
 export default function AuthClientPage() {
   const params = useParams<{ auth?: string[] }>()
   const searchParams = useSearchParams()
+  const { signIn } = useSignIn()
+  const { signUp } = useSignUp()
   const authSegments = params?.auth ?? []
-  const isSignInPath = authSegments[0] === 'sign-in'
-  const isSignInMode = searchParams.get('mode') === 'sign-in'
-  const isSignInFlow = isSignInPath || isSignInMode
+  const isSignInFlow =
+    authSegments[0] === 'sign-in' ||
+    searchParams.get('mode') === 'sign-in'
+
+  // Only allow relative redirect URLs (starting with /) to prevent open redirect attacks
+  const redirectUrl = searchParams.get('redirect_url')
+  const safeRedirectUrl =
+    redirectUrl && redirectUrl.startsWith('/') && !redirectUrl.startsWith('//')
+      ? redirectUrl
+      : null
+
+  function handleOAuth(strategy: 'oauth_apple' | 'oauth_facebook' | 'oauth_google') {
+    const postAuthUrl = safeRedirectUrl || '/'
+    if (isSignInFlow) {
+      if (!signIn) return
+      signIn.sso({
+        strategy,
+        redirectCallbackUrl: '/auth/callback',
+        redirectUrl: postAuthUrl,
+      })
+    } else {
+      if (!signUp) return
+      signUp.sso({
+        strategy,
+        redirectCallbackUrl: '/auth/callback',
+        redirectUrl: postAuthUrl,
+      })
+    }
+  }
 
   return (
     <>
-      <main
-        className="auth-background"
-        style={{
-          minHeight: '100vh',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          padding: '1rem',
-        }}
-      >
-        <section
-          className="auth-section"
-          style={{
-            position: 'relative',
-            width: '100%',
-            maxWidth: '28rem',
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            gap: '1.5rem',
-          }}
-        >
+      <main className="auth-background">
+        <section className="auth-container">
           <AmbientParticles />
+
           <Image
             src="/images/logo.png"
             alt="DreamForge"
@@ -111,157 +139,78 @@ export default function AuthClientPage() {
             height={72}
             priority
             style={{
-              display: 'block',
               width: 'min(45vw, 200px)',
               height: 'auto',
-              marginLeft: 'auto',
-              marginRight: 'auto',
             }}
           />
+
           <PremiumGlowCard>
-              <div style={{ width: '100%', position: 'relative' }}>
-              <div
-                style={{
-                  position: 'absolute',
-                  top: '5.6rem',
-                  left: '50%',
-                  transform: 'translateX(-50%)',
-                  zIndex: 3,
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  whiteSpace: 'nowrap',
-                  gap: '0.75rem',
-                  color: 'rgba(255, 255, 255, 0.85)',
-                }}
-              >
-                <span>{isSignInFlow ? "Don't have an account?" : 'Have an account?'}</span>
+            <div className="card-content">
+              <h1 className="auth-title">
+                {isSignInFlow ? 'Sign in' : 'Create your account'}
+              </h1>
+
+              <div className="auth-toggle">
+                <span>
+                  {isSignInFlow
+                    ? "Don't have an account?"
+                    : 'Have an account?'}
+                </span>
                 <button
-                  type="button"
                   className="signin-pill"
+                  type="button"
                   onClick={() => {
-                    const currentParams = new URLSearchParams(window.location.search)
-                    const redirectUrl = currentParams.get('redirect_url')
                     const target = isSignInFlow ? '/auth' : '/auth?mode=sign-in'
                     const separator = target.includes('?') ? '&' : '?'
-                    window.location.href = redirectUrl
-                      ? `${target}${separator}redirect_url=${encodeURIComponent(redirectUrl)}`
+                    window.location.href = safeRedirectUrl
+                      ? `${target}${separator}redirect_url=${encodeURIComponent(safeRedirectUrl)}`
                       : target
-                  }}
-                  style={{
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    border: '1px solid rgba(255, 255, 255, 0.5)',
-                    borderRadius: '9999px',
-                    background: 'rgba(255, 255, 255, 0.08)',
-                    color: '#ffffff',
-                    textDecoration: 'none',
-                    padding: '0.45rem 0.9rem',
-                    cursor: 'pointer',
                   }}
                 >
                   {isSignInFlow ? 'Sign up' : 'Sign in'}
                 </button>
               </div>
+
+              <div className="divider">or</div>
+
+              <div className="social-buttons">
+                <button
+                  className="social-button"
+                  type="button"
+                  aria-label="Continue with Apple"
+                  onClick={() => handleOAuth('oauth_apple')}
+                >
+                  <Image src="/icons/apple.svg" alt="" width={20} height={20} />
+                </button>
+
+                <button
+                  className="social-button"
+                  type="button"
+                  aria-label="Continue with Facebook"
+                  onClick={() => handleOAuth('oauth_facebook')}
+                >
+                  <Image src="/icons/facebook.svg" alt="" width={20} height={20} />
+                </button>
+
+                <button
+                  className="social-button"
+                  type="button"
+                  aria-label="Continue with Google"
+                  onClick={() => handleOAuth('oauth_google')}
+                >
+                  <Image src="/icons/google.svg" alt="" width={20} height={20} />
+                </button>
+              </div>
+
               {isSignInFlow ? (
                 <SignIn appearance={clerkAppearance} />
               ) : (
                 <SignUp appearance={clerkAppearance} />
               )}
-              </div>
+            </div>
           </PremiumGlowCard>
         </section>
       </main>
-      <style jsx global>{`
-        .auth-background {
-          background-color: #070218;
-          background-image: url('/images/DreamForge-Latest-BG.png?v=3');
-          background-position: center bottom;
-          background-size: cover;
-          background-repeat: no-repeat;
-        }
-
-        /* Layout overrides - keep form centered and full width */
-        .cl-main,
-        .cl-form {
-          display: flex !important;
-          flex-direction: column !important;
-          margin-left: auto !important;
-          margin-right: auto !important;
-          width: 100% !important;
-        }
-
-        .cl-formField,
-        .cl-formFieldRow,
-        .cl-formFieldInput {
-          width: 100% !important;
-          max-width: none !important;
-        }
-
-        .cl-rootBox,
-        .cl-cardBox,
-        .cl-card,
-        .cl-header,
-        .cl-headerTitle {
-          margin-left: auto !important;
-          margin-right: auto !important;
-          text-align: center !important;
-        }
-
-        /* Social buttons layout */
-        .cl-socialButtons,
-        .cl-socialButtonsBlock {
-          display: flex !important;
-          flex-direction: row !important;
-          justify-content: center !important;
-          gap: 0.75rem !important;
-          width: 100% !important;
-        }
-
-        .cl-socialButtonsIconButton,
-        .cl-socialButtonsBlockButton {
-          width: 5.4rem !important;
-          min-width: 5.4rem !important;
-          height: 2rem !important;
-        }
-
-        .cl-socialButtonsBlockButtonText,
-        .cl-socialButtonsButtonText {
-          display: none !important;
-        }
-
-        /* Custom sign-in/sign-up toggle pill */
-        .signin-pill {
-          font-family: var(--font-montserrat), Montserrat, sans-serif !important;
-          transition:
-            background 0.2s ease,
-            box-shadow 0.2s ease,
-            border-color 0.2s ease,
-            transform 0.15s ease !important;
-        }
-
-        .signin-pill:hover,
-        .signin-pill:focus-visible {
-          background: linear-gradient(135deg, #7a3cff 0%, #b24dff 100%) !important;
-          border-color: rgba(208, 160, 255, 0.8) !important;
-          box-shadow: 0 0 0 1px rgba(168, 111, 255, 0.45), 0 0 16px rgba(140, 72, 255, 0.4) !important;
-          outline: none !important;
-        }
-
-        .signin-pill:active {
-          background: linear-gradient(135deg, #6a2feb 0%, #9f3ff1 100%) !important;
-          transform: translateY(1px) scale(0.99) !important;
-          box-shadow: 0 0 0 1px rgba(156, 96, 255, 0.5), 0 0 12px rgba(124, 60, 240, 0.35) !important;
-        }
-
-        @media (max-width: 768px) {
-          .auth-background {
-            background-size: contain;
-            background-position: center bottom;
-          }
-        }
-      `}</style>
     </>
   )
 }

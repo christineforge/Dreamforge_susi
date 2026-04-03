@@ -1,44 +1,47 @@
 # DreamForge Auth
 
-A minimal Next.js authentication UI project using Clerk for customizing authentication components and deploying on Vercel.
+A minimal Next.js authentication UI using Clerk with custom glassmorphism design.
 
 ## Features
 
-- **Next.js App Router** - Modern React framework
-- **Clerk Authentication** - Pre-built authentication components with full customization
-- **Glassmorphism Design** - Semi-transparent card with blur effects
-- **Dark Sci-Fi Theme** - Purple/blue gradients with neon accents
-- **Vercel Ready** - Configured for easy deployment on Vercel
+- **Next.js 16 App Router** - Modern React framework with Turbopack
+- **Clerk v7 Authentication** - Pre-built auth components with full customization
+- **Glassmorphism Design** - Semi-transparent cards with blur effects and cursor-following glow
+- **Dark Sci-Fi Theme** - Purple/blue gradients with teal accents
+- **OAuth Support** - Google, Apple, Facebook sign-in buttons
+- **Vercel Ready** - Configured for deployment
 
-## Getting Started
+## Quick Start
 
 ### Prerequisites
 
-- Node.js 18+ installed
-- A Clerk account (sign up at [clerk.com](https://clerk.com))
+- Node.js 18+ 
+- A Clerk account ([clerk.com](https://clerk.com))
 
 ### Installation
 
-1. **Install dependencies:**
-   ```bash
-   npm install
-   ```
+```bash
+# Install dependencies
+npm install
 
-2. **Set up environment variables:**
-   - Copy `env.example` to `.env.local`
-   - Get your Clerk publishable key from the [Clerk Dashboard](https://dashboard.clerk.com)
-   - Add your key to `.env.local`:
-     ```
-     NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=pk_test_your_key_here
-     ```
+# Set up environment variables
+cp env.example .env.local
+# Add your Clerk publishable key to .env.local
 
-3. **Run the development server:**
-   ```bash
-   npm run dev
-   ```
+# Run development server
+npm run dev
 
-4. **Open your browser:**
-   Navigate to [http://localhost:3000/auth](http://localhost:3000/auth)
+# Open http://localhost:3000/auth
+```
+
+### Environment Variables
+
+Create `.env.local`:
+```
+NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=pk_test_your_key_here
+```
+
+Get your key from [Clerk Dashboard](https://dashboard.clerk.com).
 
 ## Project Structure
 
@@ -46,84 +49,141 @@ A minimal Next.js authentication UI project using Clerk for customizing authenti
 dreamforge-auth/
 ├── app/
 │   ├── auth/
-│   │   ├── [[...rest]]/
-│   │   │   ├── AuthPageClient.tsx  # SignUp page client component
-│   │   │   └── page.tsx            # SignUp page server component
-│   │   └── sign-in/
-│   │       └── page.tsx            # SignIn page
-│   └── layout.tsx                  # Root layout with ClerkProvider
-├── public/
-│   └── images/                     # Logo and background images
-├── env.example                      # Environment variable template
-├── next.config.js                  # Next.js configuration
-├── package.json                    # Dependencies
-├── tsconfig.json                   # TypeScript configuration
-└── vercel.json                     # Vercel deployment configuration
+│   │   ├── [[...auth]]/
+│   │   │   ├── AuthClientPage.tsx  # Main auth component (client)
+│   │   │   └── page.tsx            # Auth page (server)
+│   │   └── callback/
+│   │       └── page.tsx            # OAuth callback handler
+│   ├── layout.tsx                  # Root layout with ClerkProvider
+│   └── globals.css                 # Global styles + Clerk overrides
+├── components/
+│   └── ui/
+│       ├── PremiumGlowCard.tsx     # Card wrapper with gradient border
+│       └── AmbientParticles.tsx    # Animated background particles
+└── public/
+    ├── images/                     # Logo
+    └── icons/                      # Social provider icons (SVG)
 ```
 
 ## Customization
 
 ### Clerk Appearance API
 
-The Clerk appearance is configured in `app/layout.tsx` using the `appearance` prop. You can customize:
-
-- **Colors**: Primary, text, background, input colors
-- **Border radius**: Buttons and inputs
-- **Button styles**: Gradients, hover effects
-- **Input styles**: Background, borders, focus states
-- **Social buttons**: Styling for OAuth providers
-- **Typography**: Fonts, sizes, weights
-
-Example customization in `app/layout.tsx`:
+Auth styling is configured in `app/auth/[[...auth]]/AuthClientPage.tsx` using Clerk's `appearance` prop:
 
 ```typescript
-<ClerkProvider
-  appearance={{
-    variables: {
-      colorPrimary: '#00d4ff',
-      colorText: '#ffffff',
-      borderRadius: '0.75rem',
+const clerkAppearance = {
+  variables: {
+    colorPrimary: '#00BBA7',           // Brand teal
+    colorText: '#ffffff',              // White text
+    colorInputBackground: 'rgba(255,255,255,0.15)',  // Glass inputs
+  },
+  elements: {
+    formFieldInput: {
+      borderRadius: '9999px',          // Pill shape
+      height: '52px',
     },
-    elements: {
-      formButtonPrimary: {
-        background: 'linear-gradient(135deg, #00d4ff 0%, #00b8d4 100%)',
-      },
+    formButtonPrimary: {
+      background: 'linear-gradient(135deg, #00BBA7 0%, #00B8DB 100%)',
     },
-  }}
->
+  },
+}
 ```
 
-### Styling
+See [Clerk Appearance API docs](https://clerk.com/docs/components/customization/overview) for all options.
 
-All styling is done through Clerk's `appearance` prop in `app/layout.tsx` and inline styles in the page components. The glassmorphism effect is configured in the `card` element styling using `backdropFilter` in the appearance prop.
+### Styling Architecture
+
+- **globals.css** - Layout, animations, component styles, Clerk overrides
+- **Module CSS** - Component-specific styles (PremiumGlowCard, AmbientParticles)
+- **Inline styles** - Dynamic styles (cursor tracking, responsive sizing)
+
+All styling follows Clerk's recommended patterns - customize via `appearance` prop, override with global CSS when needed.
+
+### Adding OAuth Providers
+
+1. **Enable in Clerk Dashboard:**
+   - Go to User & Authentication → Social Connections
+   - Enable desired providers (Google, Apple, Facebook)
+
+2. **Icons are ready** - SVGs in `/public/icons/`
+
+3. **Buttons are wired** - OAuth redirects configured in `AuthClientPage.tsx`
+
+## OAuth Setup
+
+### Configure Clerk Redirect URLs
+
+In [Clerk Dashboard](https://dashboard.clerk.com) → User & Authentication → Social Connections:
+
+**Development:**
+```
+http://localhost:3000/auth/sso-callback
+```
+
+**Production:**
+```
+https://your-domain.com/auth/sso-callback
+```
+
+### Provider-Specific Setup
+
+Each OAuth provider requires app credentials configured in Clerk Dashboard:
+
+- **Google**: OAuth 2.0 Client ID from Google Cloud Console
+- **Apple**: App ID from Apple Developer Portal
+- **Facebook**: App ID from Meta for Developers
 
 ## Deployment to Vercel
 
-1. **Push your code to GitHub**
+```bash
+# 1. Push to GitHub
+git push origin main
 
-2. **Connect to Vercel:**
-   - Go to [vercel.com](https://vercel.com)
-   - Import your GitHub repository
-   - Vercel will auto-detect Next.js
+# 2. Import in Vercel
+# Go to vercel.com → Import repository
 
-3. **Set Environment Variables:**
-   - In Vercel dashboard, go to Settings → Environment Variables
-   - Add `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY` with your Clerk publishable key
+# 3. Add environment variable in Vercel dashboard
+NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=pk_live_your_key_here
 
-4. **Configure Clerk Dashboard:**
-   - Go to [Clerk Dashboard](https://dashboard.clerk.com)
-   - Add your Vercel URL to allowed redirect URLs:
-     - `https://your-app.vercel.app`
-     - `https://your-app.vercel.app/auth/sign-in`
-     - `https://your-app.vercel.app/auth` (for sign-up)
+# 4. Deploy
+# Vercel auto-builds and deploys
+```
 
-5. **Deploy:**
-   - Vercel will automatically build and deploy
-   - Your auth flow will be live!
+### Post-Deployment
 
-## Notes
+1. **Add production URLs to Clerk:**
+   - Dashboard → User & Authentication → Social Connections
+   - Add: `https://your-app.vercel.app/auth/sso-callback`
 
-- The `vercel.json` file configures the build to use the `dreamforge-auth` directory
-- Make sure your Clerk publishable key is set in Vercel environment variables
-- OAuth providers need to be configured in Clerk Dashboard with your Vercel URLs
-- All styling is done through Clerk's `appearance` prop and inline styles - no CSS files needed
+2. **Test OAuth flow** in production
+
+## Development Notes
+
+- Uses CSS classes instead of excessive inline styles
+- Clerk components render inside custom UI shell
+- Custom social buttons redirect to `/auth/sso-callback?strategy=oauth_*`
+- Loading state hidden via `formButtonPrimaryLoading: { display: 'none' }`
+- Cursor-following glow uses `useRef` + mouse event handlers
+
+## Troubleshooting
+
+**OAuth not working:**
+- Check redirect URLs in Clerk Dashboard match exactly
+- Ensure provider is enabled in Clerk
+- Verify app credentials are correct
+
+**Styling issues:**
+- Check `globals.css` for Clerk overrides (`.cl-*` classes)
+- Verify `appearance` prop configuration in `AuthClientPage.tsx`
+- Clear `.next` cache: `rm -rf .next && npm run dev`
+
+**Build errors:**
+- Ensure Node.js 18+
+- Delete `node_modules` and reinstall: `rm -rf node_modules && npm install`
+
+## Resources
+
+- [Clerk Documentation](https://clerk.com/docs)
+- [Next.js Documentation](https://nextjs.org/docs)
+- [Vercel Deployment](https://vercel.com/docs)

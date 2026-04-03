@@ -35,3 +35,238 @@
   88% { opacity: 0.5; }
   100% { transform: translate(-42px, 38px); opacity: 0; }
 }
+
+/* Auth page layout */
+.auth-background {
+  background: url('/images/DreamForge-Latest-BG.png') center bottom / cover no-repeat;
+  background-color: #070218;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+
+@media (max-width: 640px) {
+  .auth-background {
+    background-size: contain;
+    background-position: center bottom;
+    padding: 0.5rem;
+  }
+}
+
+.auth-container {
+  position: relative;
+  width: 100%;
+  max-width: 28rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+@media (max-width: 640px) {
+  .auth-container {
+    max-width: 100%;
+    gap: 1rem;
+  }
+}
+
+.card-content {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  padding: 1.25rem 1.75rem 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-sizing: border-box;
+}
+
+@media (max-width: 640px) {
+  .card-content {
+    padding: 2rem 1.5rem 1rem;
+  }
+}
+
+.auth-title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #fff;
+  text-align: center;
+  margin: 1rem 0 0.75rem;
+  width: 100%;
+}
+
+@media (max-width: 640px) {
+  .auth-title {
+    font-size: 1.5rem;
+  }
+}
+
+.auth-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+  color: rgba(255,255,255,0.85);
+  width: 100%;
+}
+
+.divider {
+  text-align: center;
+  margin: 0.25rem 0;
+  color: rgba(255,255,255,0.6);
+  width: 100%;
+}
+
+.social-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 0.75rem;
+  margin: 0.25rem 0 0.5rem;
+  width: 100%;
+}
+
+/* Social buttons */
+.social-button {
+  flex: 1;
+  height: 44px;
+  border-radius: 0.5rem;
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  padding: 0;
+}
+
+.social-button img {
+  width: 20px;
+  height: 20px;
+  display: block;
+}
+
+.social-button:hover {
+  background: rgba(255, 255, 255, 0.12);
+  transform: translateY(-2px);
+  border-color: rgba(168, 85, 247, 0.5);
+  box-shadow: 0 0 14px rgba(168, 85, 247, 0.3);
+}
+
+/* Sign in pill button */
+.signin-pill {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 9999px;
+  padding: 0.35rem 1.25rem;
+  color: #ffffff;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.signin-pill:hover {
+  background: linear-gradient(135deg, #5E0095 0%, #3C0091 100%);
+  border-color: rgba(94, 0, 149, 0.8);
+  color: #ffffff;
+  transform: scale(1.02);
+  box-shadow: 0 0 14px rgba(94, 0, 149, 0.4);
+}
+
+.signin-pill:active {
+  background: linear-gradient(135deg, #4A0078 0%, #2E006F 100%);
+  border-color: rgba(94, 0, 149, 0.9);
+  transform: scale(0.98);
+  box-shadow: 0 0 18px rgba(94, 0, 149, 0.5);
+}
+
+/* Clerk component overrides */
+.cl-rootBox,
+.cl-cardBox,
+.cl-card,
+.cl-main {
+  width: 100% !important;
+  max-width: 100% !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  box-shadow: none !important;
+  box-sizing: border-box !important;
+  overflow: visible !important;
+}
+
+.cl-form {
+  gap: 0.75rem !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+  padding-bottom: 0.5rem !important;
+}
+
+.cl-formField,
+.cl-formFieldRow {
+  width: 100% !important;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+.cl-formFieldInputGroup,
+.cl-formFieldInput,
+.cl-formFieldInput input,
+.cl-formFieldInput__identifier,
+.cl-formFieldInput__password {
+  width: 100% !important;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+  overflow: hidden !important;
+}
+
+/* Placeholder text - transparent white */
+.cl-formFieldInput::placeholder,
+.cl-formFieldInput input::placeholder {
+  color: rgba(255, 255, 255, 0.4) !important;
+  opacity: 1 !important;
+}
+
+/* Input hover animation */
+.cl-formFieldInput:hover {
+  border-color: rgba(255, 255, 255, 0.45) !important;
+  background-color: rgba(255, 255, 255, 0.15) !important;
+  transition: all 0.25s ease !important;
+}
+
+/* Input focus glow outline */
+.cl-formFieldInput:focus,
+.cl-formFieldInput:focus-within {
+  border-color: rgba(94, 0, 149, 0.7) !important;
+  box-shadow: 0 0 0 2px rgba(94, 0, 149, 0.3), 0 0 16px rgba(94, 0, 149, 0.25) !important;
+  outline: none !important;
+  transition: all 0.25s ease !important;
+}
+
+.cl-formButtonPrimary {
+  width: 100% !important;
+  max-width: 100% !important;
+  height: 44px !important;
+  font-size: 1rem !important;
+  font-weight: 700 !important;
+  transition: all 0.2s ease !important;
+  margin-top: 0.5rem !important;
+  margin-bottom: 0.25rem !important;
+  box-sizing: border-box !important;
+}
+
+.cl-formButtonPrimary:hover {
+  transform: scale(1.02) !important;
+  box-shadow: 0 0 20px rgba(0, 187, 167, 0.5), 0 0 40px rgba(0, 187, 167, 0.3) !important;
+}
+
+.cl-formButtonPrimary:active {
+  transform: scale(0.98) !important;
+  box-shadow: 0 0 24px rgba(0, 187, 167, 0.6), 0 0 48px rgba(0, 187, 167, 0.4) !important;
+}
